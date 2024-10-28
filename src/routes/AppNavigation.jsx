@@ -4,7 +4,7 @@ import {
   useNavigate,
   useRoutes,
 } from "react-router-dom";
-import { Outlet } from "react-router-dom";
+// import { Outlet } from "react-router-dom";
 import AppIndex from "./AppIndex";
 import NotFound from "./NotFound";
 // import { useDispatch, useSelector } from "react-redux";
@@ -65,14 +65,12 @@ export default function AppNavigation() {
         // },
       ],
     },
-    // {
-    //   path: "/",
-    //   element: isAuthenticated ? (
-    //     <Navigate to="/dashboard" replace />
-    //   ) : (
-    //     <Navigate to="/login" replace />
-    //   ),
-    // },
+    {
+      path: "/",
+      element:  
+        <Navigate to="/in-out" replace />
+     
+    },
     {
       path: "*",
       element: <NotFound />,
