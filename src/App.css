@@ -1,38 +1,44 @@
-
-.logo {
+/* .logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-.duo-sidebar div:first-child{
+} */
+.duo-sidebar div:first-child {
   background-color: #161141;
   color: white;
 }
-.duo-sidebar li a{
+.duo-sidebar li a {
+  color: rgb(250,  239,  219);
+}
+/* .logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+} */
+/* .logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+} */
+.duo-sidebar div:first-child {
+  background-color: #161141;
+  color: white;
+}
+.duo-sidebar li a {
   color: rgb(250, 239, 219);
 }
 
-@keyframes logo-spin {
+/* @keyframes logo-spin {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
   }
-}
+} */
 
-@media (prefers-reduced-motion: no-preference) {
+/* @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
-}
+} */
 
 .card {
   padding: 2em;

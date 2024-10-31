@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
+import { _get } from "@/lib/Helper";
 import {
   Table,
   TableBody,
@@ -10,6 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import moment from "moment";
+
 
 const invoices = [
   {
@@ -57,6 +60,9 @@ const invoices = [
 ];
 
 export function StockTable() {
+  useEffect(()=> {
+    _get()
+  }, [])
   return (
     <Card className="pt-3">
       <CardContent>
