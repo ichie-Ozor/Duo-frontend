@@ -26,11 +26,11 @@ import {
 
 // This is sample data.
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
+  // user: {
+  //   name: "shadcn",
+  //   email: "m@example.com",
+  //   avatar: "/avatars/shadcn.jpg",
+  // },
   teams: [
     {
       name: "Duo Hotels",
@@ -67,10 +67,82 @@ const data = {
           title: "Stock",
           url: "stocks",
         },
+        {
+          title: "Output",
+          url: "output",
+        },
+      ],
+    },
+    {
+      title: "VIP",
+      url: "#",
+      icon: SquareTerminal,
+      isActive: false,
+      items: [
         // {
-        //   title: "Settings",
-        //   url: "#",
+        //   title: "Dashbord",
+        //   url: "dashboard",
         // },
+        {
+          title: "Sales",
+          url: "vip/sales",
+        },
+        {
+          title: "Stock",
+          url: "vip/stocks",
+        },
+        {
+          title: "Output",
+          url: "vip/output",
+        },
+      ],
+    },
+    {
+      title: "VIBE",
+      url: "#",
+      icon: SquareTerminal,
+      isActive: false,
+      items: [
+        // {
+        //   title: "Dashbord",
+        //   url: "dashboard",
+        // },
+        {
+          title: "Sales",
+          url: "vibe/sales",
+        },
+        {
+          title: "Stock",
+          url: "vibe/stocks",
+        },
+        {
+          title: "Output",
+          url: "vibe/output",
+        },
+      ],
+    },
+    {
+      title: "Kitchen",
+      url: "#",
+      icon: SquareTerminal,
+      isActive: false,
+      items: [
+        // {
+        //   title: "Dashbord",
+        //   url: "dashboard",
+        // },
+        {
+          title: "Sales",
+          url: "kitchen/sales",
+        },
+        {
+          title: "Stock",
+          url: "kitchen/stocks",
+        },
+        {
+          title: "Output",
+          url: "kitchen/output",
+        },
       ],
     },
     // {
@@ -171,7 +243,7 @@ export function AppSidebar({
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        {/* <NavUser user={data.user} /> */}
       </SidebarFooter>
       {/* <SidebarRail /> */}
     </Sidebar>)
