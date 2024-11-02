@@ -16,15 +16,18 @@ import OutputTable from "@/app/Stocks/OutputTable";
 import VipSales from "@/app/Vip/Sale";
 import { VipStockTable } from "@/app/Vip/StockTable";
 import VipOutputTable from "@/app/Vip/OutputTable";
+import Menus from "@/app/Manager/Menus";
+import Login from "@/app/auth/Login";
+import ManagerReport from "@/app/Manager/Reports";
 
 export default function AppNavigation() {
   // const isAuthenticated = useSelector((state) => state.auth.authenticated);
 
   let Pages = useRoutes([
-    // {
-    //   path: "/login",
-    //   element: <Login />,
-    // },
+    {
+      path: "/login",
+      element: <Login />,
+    },
     {
       element: <AppIndex />,
       children: [
@@ -70,7 +73,7 @@ export default function AppNavigation() {
           children: [
             {
               path: "sales",
-              element: <VipSales />,
+              element: <VipSales page="Vibe" />,
             },
             {
               path: "stocks",
@@ -84,6 +87,42 @@ export default function AppNavigation() {
         },
         {
           path: "kitchen",
+          element: <Outlet />,
+          children: [
+            {
+              path: "sales",
+              element: <VipSales page="Kitchen" />,
+            },
+            {
+              path: "stocks",
+              element: <VipStockTable />,
+            },
+            {
+              path: "output",
+              element: <VipOutputTable />,
+            },
+          ],
+        },
+        {
+          path: "manager",
+          element: <Outlet />,
+          children: [
+            {
+              path: "report",
+              element: <ManagerReport />,
+            },
+            {
+              path: "menu",
+              element: <Menus />,
+            },
+            {
+              path: "output",
+              element: <VipOutputTable />,
+            },
+          ],
+        },
+        {
+          path: "admin",
           element: <Outlet />,
           children: [
             {
@@ -104,7 +143,7 @@ export default function AppNavigation() {
     },
     {
       path: "/",
-      element: <Navigate to="/in-out" replace />,
+      element: <Navigate to="/login" replace />,
     },
     {
       path: "*",

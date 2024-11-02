@@ -2,8 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { _post } from "@/lib/Helper";
-import { useState } from "react";
+import { _get, _post } from "@/lib/Helper";
+import { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -19,6 +19,22 @@ import moment from "moment";
 export default function InAndOut() {
   const [inForm,setInForm] = useState({})
    const [outForm, setOutForm] = useState({});
+    const [stocks, setStocks] = useState([]);
+    const getStocks = () => {
+      _get(
+        `get/stock`,
+        (resp) => {
+          if (resp.success) {
+            setStocks(resp.data);
+            // alert(resp.data);
+          }
+        },
+        (err) => console.error(err.message)
+      );
+    };
+    useEffect(() => {
+      getStocks();
+    }, []);
   const handleInChange = ({target:{name, value}}) => {
     console.log(name, value);
     setInForm(p => ({...p, [name]:value}))
@@ -93,7 +109,14 @@ export default function InAndOut() {
                 <div className=" w-full max items-center gap-1.5 md:grid-cols-2 ">
                   <Label htmlFor="date">Date</Label>
                   <div className="h-9 w-full">
-                    <DatePicker date={new Date()} setDate={handleInChange} className='w-full'/>
+                    <DatePicker
+                      date={inForm.date}
+                      setDate={(selectedDate) => {
+                        console.log("Selected date:", selectedDate, inForm);
+                        setInForm((p) => ({ ...p, date: selectedDate }));
+                      }}
+                      className="w-full"
+                    />
                   </div>
                   {/* <input
                     className="h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
@@ -155,16 +178,20 @@ export default function InAndOut() {
                   <Label htmlFor="item_name">Item Name</Label>
                   <Select>
                     <SelectTrigger
-                      id="gender"
+                      id="items"
                       className="border-2 border-[#4267B2] focus:ring-[#4267B2] focus:border-[#4267B2]"
                     >
                       <SelectValue placeholder="Select Item" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="male">Rice</SelectItem>
-                      <SelectItem value="female">Chicken</SelectItem>
-                      <SelectItem value="other">Drinks</SelectItem>
-                      <SelectItem value="others">Others</SelectItem>
+                      {stocks.map((stock) => (
+                        <SelectItem
+                          key={stock.item_name}
+                          value={stock.item_name}
+                        >
+                          {stock.item_name}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                   {/* <Input
@@ -191,14 +218,15 @@ export default function InAndOut() {
               <div className="flex flex-1 flex-row gap-4 p-4 pt-0">
                 <div className=" w-full max items-center gap-1.5 md:grid-cols-2 ">
                   <Label htmlFor="date">Date</Label>
-                  <input
-                    className="h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                    onChange={handleOutChange}
-                    name="date_of_collection"
-                    type="date"
-                    id="date"
-                    placeholder="Item Name"
-                  />
+                  <div className="h-9 w-full">
+                    <DatePicker
+                      date={outForm.date}
+                      setDate={(selectedDate) => {
+                        setOutForm((p) => ({ ...p, date: selectedDate }));
+                      }}
+                      className="w-full"
+                    />
+                  </div>
                 </div>
               </div>
               <div className="flex flex-1 flex-row gap-4 p-4 pt-0">
@@ -224,9 +252,9 @@ export default function InAndOut() {
                       <SelectValue placeholder="Select Destination" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="male">Kitchen</SelectItem>
-                      <SelectItem value="female">Vip</SelectItem>
-                      <SelectItem value="other">Vibes</SelectItem>
+                      <SelectItem value="kitchen">Kitchen</SelectItem>
+                      <SelectItem value="vip">Vip</SelectItem>
+                      <SelectItem value="vibes">Vibes</SelectItem>
                     </SelectContent>
                   </Select>
                   {/* <input

@@ -145,6 +145,54 @@ const data = {
         },
       ],
     },
+    {
+      title: "Manager",
+      url: "#",
+      icon: SquareTerminal,
+      isActive: false,
+      items: [
+        // {
+        //   title: "Dashbord",
+        //   url: "dashboard",
+        // },
+        {
+          title: "Report",
+          url: "manager/report",
+        },
+        {
+          title: "Settings",
+          url: "manager/menu",
+        },
+        // {
+        //   title: "Output",
+        //   url: "kitchen/output",
+        // },
+      ],
+    },
+    {
+      title: "Admin",
+      url: "#",
+      icon: SquareTerminal,
+      isActive: false,
+      items: [
+        // {
+        //   title: "Dashbord",
+        //   url: "dashboard",
+        // },
+        {
+          title: "Sales",
+          url: "kitchen/sales",
+        },
+        {
+          title: "Stock",
+          url: "kitchen/stocks",
+        },
+        {
+          title: "Output",
+          url: "kitchen/output",
+        },
+      ],
+    },
     // {
     //   title: "Models",
     //   url: "#",

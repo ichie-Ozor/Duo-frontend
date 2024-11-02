@@ -1,20 +1,17 @@
+import * as React from "react";
+import { format } from "date-fns";
+import { Calendar as CalendarIcon } from "lucide-react";
 
-import * as React from "react"
-import { format } from "date-fns"
-import { Calendar as CalendarIcon } from "lucide-react"
-
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
 
-export function DatePicker({date,setDate}) {
- 
-
+export function DatePicker({ date, setDate, dateFormat = "PPP" }) {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -24,9 +21,10 @@ export function DatePicker({date,setDate}) {
             "w-full justify-start text-left font-normal",
             !date && "text-muted-foreground"
           )}
+          aria-label="Choose date"
         >
-          <CalendarIcon />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
+          <CalendarIcon className="mr-2" />
+          {date ? format(date, dateFormat) : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
@@ -38,5 +36,5 @@ export function DatePicker({date,setDate}) {
         />
       </PopoverContent>
     </Popover>
-  )
+  );
 }
