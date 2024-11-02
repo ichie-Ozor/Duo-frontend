@@ -5,7 +5,20 @@
   transition: filter 300ms;
 } */
 .duo-sidebar div:first-child {
-  background-color: #161141;
+  background-color: black;
+  color: white;
+}
+.duo-sidebar li a {
+  color: rgb(250,  239,  219);
+}
+/* .logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+} */
+/* .logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+.duo-sidebar div:first-child{
+  background-color: black;
   color: white;
 }
 .duo-sidebar li a {
@@ -17,10 +30,7 @@
 /* .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 } */
-.duo-sidebar div:first-child {
-  background-color: #161141;
-  color: white;
-}
+
 .duo-sidebar li a {
   color: rgb(250, 239, 219);
 }

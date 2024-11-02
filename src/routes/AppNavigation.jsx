@@ -1,5 +1,6 @@
 import {
   Navigate,
+  Outlet,
   useLocation,
   useNavigate,
   useRoutes,
@@ -11,6 +12,10 @@ import NotFound from "./NotFound";
 import Dashboard from "@/app/dashboard/page";
 import { StockTable } from "@/app/Stocks/StockTable";
 import InAndOut from "@/app/In/InAndOut";
+import OutputTable from "@/app/Stocks/OutputTable";
+import VipSales from "@/app/Vip/Sale";
+import { VipStockTable } from "@/app/Vip/StockTable";
+import VipOutputTable from "@/app/Vip/OutputTable";
 
 export default function AppNavigation() {
   // const isAuthenticated = useSelector((state) => state.auth.authenticated);
@@ -36,40 +41,70 @@ export default function AppNavigation() {
           element: <StockTable />,
         },
 
-        // {
-        //   path: "superagenttable",
-        //   element: <SuperAgentTable />,
-        // },
+        {
+          path: "output",
+          element: <OutputTable />,
+        },
 
-        // {
-        //   path: "superagenthistory/history/:id",
-        //   element: <SuperAgentHistory />,
-        // },
-
-        // {
-        //   path: "agenttable/view/:id",
-        //   element: <AgentView />,
-        // },
-
-        // {
-        //   path: "vendorReg/detail/:id",
-        //   element: <VendorDetail />,
-        // },
-        // {
-        //   path: "/vehicleOwner",
-        //   element: <VehicleOwner />,
-        // },
-        // {
-        //   path: "collection-point",
-        //   element: <CollectionPointData />,
-        // },
+        {
+          path: "vip",
+          element: <Outlet />,
+          children: [
+            {
+              path: "sales",
+              element: <VipSales />,
+            },
+            {
+              path: "stocks",
+              element: <VipStockTable />,
+            },
+            {
+              path: "output",
+              element: <VipOutputTable />,
+            },
+          ],
+        },
+        {
+          path: "vibe",
+          element: <Outlet />,
+          children: [
+            {
+              path: "sales",
+              element: <VipSales />,
+            },
+            {
+              path: "stocks",
+              element: <VipStockTable />,
+            },
+            {
+              path: "output",
+              element: <VipOutputTable />,
+            },
+          ],
+        },
+        {
+          path: "kitchen",
+          element: <Outlet />,
+          children: [
+            {
+              path: "sales",
+              element: <VipSales />,
+            },
+            {
+              path: "stocks",
+              element: <VipStockTable />,
+            },
+            {
+              path: "output",
+              element: <VipOutputTable />,
+            },
+          ],
+        },
       ],
     },
     {
       path: "/",
-      element:  
-        <Navigate to="/in-out" replace />
-     
+      element: <Navigate to="/in-out" replace />,
     },
     {
       path: "*",

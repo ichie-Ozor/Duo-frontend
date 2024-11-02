@@ -1,7 +1,4 @@
-/* eslint-disable no-unused-vars */
-import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { _get } from "@/lib/Helper";
 import {
   Table,
   TableBody,
@@ -14,13 +11,15 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import moment from "moment";
-// import { _get } from "@/lib/Helper";
+import { _get } from "@/lib/Helper";
+import { useEffect, useState } from "react";
 
-export function StockTable() {
+
+export function VipStockTable() {
   const [stocks, setStocks] = useState([]);
   const getStocks = () => {
     _get(
-      `get/stock`,
+      `get/vip`,
       (resp) => {
         if (resp.success) {
           setStocks(resp.data);
@@ -37,7 +36,7 @@ export function StockTable() {
     <Card className="pt-3">
       <CardContent>
         <Table>
-          <TableCaption>A list of stocks in Kitchen.</TableCaption>
+          <TableCaption>A list of stocks in Vip</TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead className="w-[100px] text-">Invoice</TableHead>
@@ -51,14 +50,20 @@ export function StockTable() {
           <TableBody>
             {stocks.map((stock, idx) => (
               <TableRow key={stock.invoice}>
-                <TableCell className="font-medium">{stock.invoice}</TableCell>
-                <TableCell>{stock.item_name}</TableCell>
+                <TableCell className="font-medium">{idx +1}</TableCell>
+                <TableCell>{stock.vip_item_name}</TableCell>
                 <TableCell>{moment().format("YYYY-MM-DD")}</TableCell>
-                <TableCell>{stock.in_qty}</TableCell>
-                <TableCell className="text-right">{stock.item_cost}</TableCell>
+                <TableCell>{stock.vip_item_qty}</TableCell>
                 <TableCell className="text-right">
-                  <Badge variant={stock.in_qty <= 5 ? "destructive" : ""}>
-                    {stock.in_qty <= 5 ? "Critical" : "Normal"}
+                  {stock.vip_item_price}
+                </TableCell>
+                <TableCell className="text-right">
+                  <Badge
+                    variant={
+                      stock.in_qty < 1 ? "destructive" : ""
+                    }
+                  >
+                    {stock.in_qty < 1 ? "Critical" : "Normal"}
                   </Badge>
                 </TableCell>
               </TableRow>
