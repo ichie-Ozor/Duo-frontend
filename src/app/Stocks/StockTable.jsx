@@ -60,10 +60,10 @@ export function StockTable() {
                 <TableCell className="text-right">
                   <Badge
                     variant={
-                      stock.in_qty < 1 ? "destructive" : ""
+                      stock.in_qty < 5 ? "destructive" : ""
                     }
                   >
-                    {stock.in_qty < 1 ? "Critical" : "Normal"}
+                    {stock.in_qty < 5 ? "Critical" : "Normal"}
                   </Badge>
                 </TableCell>
               </TableRow>

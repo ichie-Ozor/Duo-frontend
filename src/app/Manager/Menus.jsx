@@ -13,16 +13,21 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from '@/components/ui/textarea';
 import { Eye, EyeOff } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 export default function Menus() {
       const [showPassword, setShowPassword] = useState(false);
        const [menuForm, setMenuForm] = useState({});
        const [staffForm,setStaffForm] = useState({
-        name:'',
+        firstname:'',
+        lastname:'',
+        username:'',
         email:'',
         role:'staff',
+        status:'active',
+        account_type:'',
         accessTo:'',
-        password:123456,
+        password:'123456',
 
     });
         const handleMenuChange = ({ target: { name, value } }) => {
@@ -36,6 +41,17 @@ export default function Menus() {
 
         const handleMenuSubmit = (e) => {
           e.preventDefault();
+          _post(
+            `insert-menu`,
+            menuForm,
+            (resp) => {
+              console.log(resp);
+              toast.success(resp.message);
+            },
+            (err) => {
+              console.error(err);
+            }
+          );
           console.log(menuForm)
         //   if (menuForm.destination) {
         //     _post(
@@ -52,6 +68,16 @@ export default function Menus() {
         }; 
             const handleCreateStaff = (e) => {
               e.preventDefault();
+              _post(
+                `users/create`,
+                staffForm,
+                (resp) => {
+                  console.log(resp);
+                },
+                (err) => {
+                  console.error(err);
+                }
+              );
              console.log(staffForm)
             }; 
   return (
@@ -83,6 +109,7 @@ export default function Menus() {
                     name="menu_name"
                     type="text"
                     id="menu_name"
+                    required
                     placeholder="Menu Name"
                   />
                 </div>
@@ -107,6 +134,7 @@ export default function Menus() {
                     name="menu_price"
                     type="number"
                     id="menu_price"
+                    required
                     placeholder="Price"
                   />
                 </div>
@@ -129,7 +157,9 @@ export default function Menus() {
                 <div className=" w-full max items-center gap-1.5 md:grid-cols-2 ">
                   <Label htmlFor="method_of_payment">Discount Type</Label>
                   <Select
-                   onValueChange={value => (setMenuForm(p => ({...p, 'discount_type': value})))}
+                    onValueChange={(value) =>
+                      setMenuForm((p) => ({ ...p, discount_type: value }))
+                    }
                   >
                     <SelectTrigger
                       id="discount"
@@ -181,6 +211,19 @@ export default function Menus() {
                 </div>
               </div>
               <div className="flex flex-1 flex-row gap-4 p-4 pt-0">
+                <div className=" w-full max items-center gap-1.5 md:grid-cols-2 ">
+                  <Label htmlFor="username">Username</Label>
+                  <Input
+                    onChange={handleStaffChange}
+                    name="username"
+                    type="text"
+                    id="username"
+                    value={staffForm.username}
+                    placeholder="Username"
+                  />
+                </div>
+              </div>
+              {/* <div className="flex flex-1 flex-row gap-4 p-4 pt-0">
                 <div className=" w-full max items-center gap-1.5 md:grid-cols-2">
                   <Label htmlFor="cost">Role</Label>
                   <Input
@@ -192,7 +235,7 @@ export default function Menus() {
                     placeholder="Staff Role"
                   />
                 </div>
-              </div>
+              </div> */}
               <div className="flex flex-1 flex-row gap-4 p-4 pt-0">
                 <div className=" w-full max items-center gap-1.5 md:grid-cols-2">
                   <Label htmlFor="price">Email</Label>
@@ -203,6 +246,19 @@ export default function Menus() {
                     id="email"
                     value={staffForm.email}
                     placeholder="Staff Email"
+                  />
+                </div>
+              </div>
+              <div className="flex flex-1 flex-row gap-4 p-4 pt-0">
+                <div className=" w-full max items-center gap-1.5 md:grid-cols-2">
+                  <Label htmlFor="phone">Phone Number</Label>
+                  <Input
+                    onChange={handleStaffChange}
+                    name="phone"
+                    type="number"
+                    id="phone"
+                    value={staffForm.phone}
+                    placeholder="Staff Phone Number"
                   />
                 </div>
               </div>
@@ -257,6 +313,7 @@ export default function Menus() {
                       <SelectItem value="kitchen">Kitchen</SelectItem>
                     </SelectContent>
                   </Select>
+
                   {/* <input
                     className="h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
                     onChange={handleStaffChange}
@@ -265,6 +322,17 @@ export default function Menus() {
                     id="date"
                     placeholder="Destination"
                   /> */}
+                </div>
+                <div className=" w-full max items-center gap-1.5 md:grid-cols-2">
+                  <Label htmlFor="cost">Role</Label>
+                  <Input
+                    onChange={handleStaffChange}
+                    name="role"
+                    type="text"
+                    id="role"
+                    value={staffForm.role}
+                    placeholder="Staff Role"
+                  />
                 </div>
               </div>
               <div className="flex flex-1 justify-center flex-row gap-4 p-4 pt-0">

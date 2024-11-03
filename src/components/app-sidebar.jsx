@@ -179,18 +179,18 @@ const data = {
         //   title: "Dashbord",
         //   url: "dashboard",
         // },
-        {
-          title: "Sales",
-          url: "kitchen/sales",
-        },
-        {
-          title: "Stock",
-          url: "kitchen/stocks",
-        },
-        {
-          title: "Output",
-          url: "kitchen/output",
-        },
+        // {
+        //   title: "Sales",
+        //   url: "kitchen/sales",
+        // },
+        // {
+        //   title: "Stock",
+        //   url: "kitchen/stocks",
+        // },
+        // {
+        //   title: "Output",
+        //   url: "kitchen/output",
+        // },
       ],
     },
     // {
@@ -291,7 +291,7 @@ export function AppSidebar({
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
-        {/* <NavUser user={data.user} /> */}
+        <NavUser user={data.user} />
       </SidebarFooter>
       {/* <SidebarRail /> */}
     </Sidebar>)

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import {
   Menu,
@@ -256,9 +256,11 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
+import { AuthContext } from "@/app/auth/Context";
 
 export default function AppIndex() {
   const location = useLocation()
+  const { user, setUser, token, setToken } = useContext(AuthContext);
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -271,7 +273,7 @@ export default function AppIndex() {
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
                   <BreadcrumbLink href="dashboard">
-                    Store
+                    Store 
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
@@ -282,7 +284,7 @@ export default function AppIndex() {
             </Breadcrumb>
           </div>
           <h3 className="mr-6 pr-5 text-2xl">
-            Frank Edward
+          {user.name}
           </h3>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">

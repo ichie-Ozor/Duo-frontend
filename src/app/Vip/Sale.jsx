@@ -122,24 +122,52 @@ export default function VipSales({page}) {
               </div>
               <div className="flex flex-1 flex-row gap-4 p-4 pt-0">
                 <div className=" w-full max items-center gap-1.5 md:grid-cols-2 ">
-                  <Label htmlFor="method_of_payment">Method of payment</Label>
-                  <Select
-                    onValueChange={(value) =>
-                      setOutForm((p) => ({ ...p, payment_method: value }))
-                    }
-                  >
-                    <SelectTrigger
-                      id="payment_method"
-                      className="border-2 border-[#4267B2] focus:ring-[#4267B2] focus:border-[#4267B2]"
-                    >
-                      <SelectValue placeholder="Select Method of Payment" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="cash">Cash</SelectItem>
-                      <SelectItem value="pos">POS</SelectItem>
-                      <SelectItem value="transfer">Transfer</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  {page == "Kitchen" ? (
+                    <>
+                      <Label htmlFor="method_of_payment">
+                        Destination
+                      </Label>
+                      <Select
+                        onValueChange={(value) =>
+                          setOutForm((p) => ({ ...p, destination: value }))
+                        }
+                      >
+                        <SelectTrigger
+                          id="payment_method"
+                          className="border-2 border-[#4267B2] focus:ring-[#4267B2] focus:border-[#4267B2]"
+                        >
+                          <SelectValue placeholder="Select Destination" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="vip">Vip</SelectItem>
+                          <SelectItem value="vibe">Vibe</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </>
+                  ) : (
+                    <>
+                      <Label htmlFor="method_of_payment">
+                        Method of payment
+                      </Label>
+                      <Select
+                        onValueChange={(value) =>
+                          setOutForm((p) => ({ ...p, payment_method: value }))
+                        }
+                      >
+                        <SelectTrigger
+                          id="payment_method"
+                          className="border-2 border-[#4267B2] focus:ring-[#4267B2] focus:border-[#4267B2]"
+                        >
+                          <SelectValue placeholder="Select Method of Payment" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="cash">Cash</SelectItem>
+                          <SelectItem value="pos">POS</SelectItem>
+                          <SelectItem value="transfer">Transfer</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </>
+                  )}
                 </div>
               </div>
               <div className="flex flex-1 flex-row gap-4 p-4 pt-0">

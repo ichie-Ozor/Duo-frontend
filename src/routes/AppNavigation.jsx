@@ -19,10 +19,13 @@ import VipOutputTable from "@/app/Vip/OutputTable";
 import Menus from "@/app/Manager/Menus";
 import Login from "@/app/auth/Login";
 import ManagerReport from "@/app/Manager/Reports";
+import { AuthContext } from "@/app/auth/Context";
+import { useContext } from "react";
 
 export default function AppNavigation() {
   // const isAuthenticated = useSelector((state) => state.auth.authenticated);
-
+const { user, setUser, token, setToken } = useContext(AuthContext);
+ 
   let Pages = useRoutes([
     {
       path: "/login",

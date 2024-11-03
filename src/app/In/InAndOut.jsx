@@ -11,14 +11,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Calendar } from "@/components/ui/calendar";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+// import { Calendar } from "@/components/ui/calendar";
+// import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { DatePicker } from "@/components/reuseables/DatePicker";
 import moment from "moment";
+import toast from "react-hot-toast";
 
 export default function InAndOut() {
   const [inForm,setInForm] = useState({})
-   const [outForm, setOutForm] = useState({});
+   const [outForm, setOutForm] = useState({name_of_giver:"Frank Edward"});
     const [stocks, setStocks] = useState([]);
     const getStocks = () => {
       _get(
@@ -50,11 +51,17 @@ export default function InAndOut() {
           _post(
             `stores?query_type=create_input`,
             { ...inForm },
-            (resp) => {
-              alert(resp);
+            (resp ) => {
+              // alert(resp);
+              if (resp.success) {
+              toast.success("Item added to store successfully");
+              }else{
+                 toast.error(resp.error);
+              }
             },
             (err) => {
-              alert(err);
+              // alert(err);
+              toast.error(err.success);
             }
           );
         
@@ -66,7 +73,9 @@ export default function InAndOut() {
               `stores?query_type=create_output`,
               { ...outForm },
               (resp) => {
-                alert(resp);
+               if(resp.success){
+                toast.success("Item Collected Successfully");
+               }
               },
               (err) => {
                 alert(err);
@@ -89,6 +98,7 @@ export default function InAndOut() {
                     name="item_name"
                     type="text"
                     id="item_name"
+                    required
                     placeholder="Item Name"
                   />
                 </div>
@@ -112,8 +122,16 @@ export default function InAndOut() {
                     <DatePicker
                       date={inForm.date}
                       setDate={(selectedDate) => {
-                        console.log("Selected date:", selectedDate, inForm);
-                        setInForm((p) => ({ ...p, date: selectedDate }));
+                        console.log(
+                          "Selected date:",
+                          moment(selectedDate).format("YYYY-MM-DD"),
+                          "inform : ",
+                          inForm
+                        );
+                        setInForm((p) => ({
+                          ...p,
+                          date: moment(selectedDate).format("YYYY-MM-DD"),
+                        }));
                       }}
                       className="w-full"
                     />
@@ -135,6 +153,7 @@ export default function InAndOut() {
                     name="in_qty"
                     type="number"
                     id="quantity"
+                    required
                     placeholder="Quantity"
                   />
                 </div>
@@ -176,7 +195,11 @@ export default function InAndOut() {
               <div className="flex flex-1 flex-row gap-4 p-4 pt-0">
                 <div className=" w-full max items-center gap-1.5 md:grid-cols-2 ">
                   <Label htmlFor="item_name">Item Name</Label>
-                  <Select>
+                  <Select
+                    onValueChange={(value) =>
+                      setOutForm((p) => ({ ...p, item_name: value, item_cost:stocks.filter(c => c.item_name === value)[0].item_cost}))
+                    }
+                  >
                     <SelectTrigger
                       id="items"
                       className="border-2 border-[#4267B2] focus:ring-[#4267B2] focus:border-[#4267B2]"
@@ -184,10 +207,10 @@ export default function InAndOut() {
                       <SelectValue placeholder="Select Item" />
                     </SelectTrigger>
                     <SelectContent>
-                      {stocks.map((stock) => (
+                      {stocks?.map((stock) => (
                         <SelectItem
                           key={stock.item_name}
-                          value={stock.item_name}
+                          value={stock.item_name || "ahmad"}
                         >
                           {stock.item_name}
                         </SelectItem>
@@ -211,6 +234,8 @@ export default function InAndOut() {
                     name="item_cost"
                     type="number"
                     id="cost"
+                    disabled
+                    value={outForm.item_cost}
                     placeholder="Cost"
                   />
                 </div>
@@ -222,7 +247,10 @@ export default function InAndOut() {
                     <DatePicker
                       date={outForm.date}
                       setDate={(selectedDate) => {
-                        setOutForm((p) => ({ ...p, date: selectedDate }));
+                        setOutForm((p) => ({
+                          ...p,
+                          date: moment(selectedDate).format("YYYY-MM-DD"),
+                        }));
                       }}
                       className="w-full"
                     />
@@ -231,12 +259,14 @@ export default function InAndOut() {
               </div>
               <div className="flex flex-1 flex-row gap-4 p-4 pt-0">
                 <div className=" w-full max items-center gap-1.5 md:grid-cols-2">
-                  <Label htmlFor="cost">Quantity</Label>
+                  <Label htmlFor="out_qty">Quantity</Label>
                   <Input
                     onChange={handleOutChange}
-                    name="in_qty"
+                    name="out_qty"
                     type="number"
-                    id="in_qty"
+                    id="out_qty"
+                    min={0}
+                    required
                     placeholder="Quantity"
                   />
                 </div>
@@ -244,7 +274,11 @@ export default function InAndOut() {
               <div className="flex flex-1 flex-row gap-4 p-4 pt-0">
                 <div className=" w-full max items-center gap-1.5 md:grid-cols-2 ">
                   <Label htmlFor="date">Destination</Label>
-                  <Select>
+                  <Select
+                  onValueChange={(SelectValue) =>
+                    setOutForm(p => ({...p,destination :SelectValue}))
+                  }
+                  >
                     <SelectTrigger
                       id="gender"
                       className="border-2 border-[#4267B2] focus:ring-[#4267B2] focus:border-[#4267B2]"

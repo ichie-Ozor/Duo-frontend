@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 // import { useLocation } from "react-router";
 // import { useDispatch } from "react-redux";
 // import { login } from "../../../redux/actions/auth";
@@ -7,53 +7,52 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, replace, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Loader } from "lucide-react";
+import { AuthContext } from "./Context";
+import { server_url } from "@/lib/Helper";
 // import { Card } from "@/components/ui/card";
 
 export default function Login() {
 //   const dispatch = useDispatch();
   const initForm = {
     email: "",
-    password: "",
-    role: "Admin",
-    society_type: "Association",
-    form_type: "Login",
+    password: ""
   };
   const [form, setForm] = useState(initForm);
   const [loading, setLoading] = useState(false);
  const [showPassword, setShowPassword] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const history = useNavigate();
-  const handleLogin = (e) => {
+const [errorMessage, setErrorMessage] = useState("");
+const history = useNavigate();
+const { user, setUser, token, setToken } = useContext(AuthContext);
+
+ const handleLogin = (e) => {
     e.preventDefault();
-        history(`/in-out`);
-    // setLoading(true);
-    // dispatch(
-    //   login(
-    //     form,
-    //     (data) => {
-    //       setLoading(false);
-    //       setForm(initForm);
-    //       console.log(data.societies.length >= 1);
-    //       if (data && data.societies && data.societies.length) {
-    //         if (data.societies.length > 1) {
-    //           history(`/auth/account-switch`);
-    //         } else {
-    //           let role = data.societies[0].role.toLowerCase();
-    //           history(`/${role}/dashboard`);
-    //         }
-    //       } else {
-    //         history(`/member/dashboard`);
-    //       }
-    //     },
-    //     (e) => {
-    //       setLoading(false);
-    //       setErrorMessage(e.message);
-    //     }
-    //   )
-    // );
-  };
+   console.log("Login");
+   fetch(`${server_url}/users/login`, {
+     method: "POST",
+     headers: {
+       "Content-Type": "application/json",
+     },
+     body: JSON.stringify(form),
+   })
+     .then((raw) => raw.json())
+     .then((data) => {
+       console.log(data);
+       if (data.success) {
+         setUser(data.user);
+         setToken(data.token);
+        //  console.log(data);
+         history("/in-out" );
+       } else {
+         console.log(data);
+        //  setError(data);
+       }
+     })
+     .catch((err) => {
+       console.error(err, "rtyui");
+     });
+ };
   const handleChange = ({ target: { value, name } }) => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
@@ -96,7 +95,7 @@ export default function Login() {
               <Input
                 className="border-2 border- focus:ring-[#4267B2] focus:border-[#4267B2]"
                 id="email"
-                name="email"
+                name="username"
                 placeholder="m@example.com"
                 required
                 type="email"
