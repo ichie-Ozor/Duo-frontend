@@ -12,14 +12,14 @@ import {
 import { Badge } from "@/components/ui/badge";
 import moment from "moment";
 import { _get } from "@/lib/Helper";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 
-export function VipStockTable() {
+export function VipStockTable({page}) {
   const [stocks, setStocks] = useState([]);
-  const getStocks = () => {
+  const getStocks = useCallback(() => {
     _get(
-      `get/vip`,
+      `get/${page}`,
       (resp) => {
         if (resp.success) {
           setStocks(resp.data);
@@ -28,10 +28,10 @@ export function VipStockTable() {
       },
       (err) => console.error(err.message)
     );
-  };
+  },[page]);
   useEffect(() => {
     getStocks();
-  }, []);
+  }, [getStocks]);
   return (
     <Card className="pt-3">
       <CardContent>

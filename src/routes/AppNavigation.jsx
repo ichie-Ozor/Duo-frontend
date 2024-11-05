@@ -63,11 +63,11 @@ const { user, setUser, token, setToken } = useContext(AuthContext);
             },
             {
               path: "stocks",
-              element: <VipStockTable />,
+              element: <VipStockTable page="vip" />,
             },
             {
               path: "output",
-              element: <VipOutputTable page ='vip'/>,
+              element: <VipOutputTable page="vip" />,
             },
           ],
         },
@@ -81,11 +81,11 @@ const { user, setUser, token, setToken } = useContext(AuthContext);
             },
             {
               path: "stocks",
-              element: <VipStockTable />,
+              element: <VipStockTable page="vibe" />,
             },
             {
               path: "output",
-              element: <VipOutputTable page='vibe'/>,
+              element: <VipOutputTable page="vibe" />,
             },
           ],
         },
@@ -99,11 +99,11 @@ const { user, setUser, token, setToken } = useContext(AuthContext);
             },
             {
               path: "stocks",
-              element: <VipStockTable />,
+              element: <VipStockTable page="kitchen" />,
             },
             {
               path: "output",
-              element: <VipOutputTable />,
+              element: <VipOutputTable page='kitchen'/>,
             },
           ],
         },
@@ -135,7 +135,7 @@ const { user, setUser, token, setToken } = useContext(AuthContext);
             },
             {
               path: "stocks",
-              element: <VipStockTable />,
+              element: <VipStockTable page="vip" />,
             },
             {
               path: "output",
