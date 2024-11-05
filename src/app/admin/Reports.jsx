@@ -16,7 +16,7 @@ import { _get } from "@/lib/Helper";
 import moment from "moment";
 import { useEffect, useState } from "react";
 
-export default function ManagerReport() {
+export default function AdminReport() {
   const [stocks, setStocks] = useState([{name:"john doe"}]);
 //   const getStocks = () => {
 //     _get(
@@ -58,34 +58,20 @@ export default function ManagerReport() {
                 <TableCell className="font-medium">{idx + 1}</TableCell>
                 <TableCell>{invoice.name}</TableCell>
                 <TableCell>Staff</TableCell>
-                <TableCell>
-                  {}
-                </TableCell>
-                <TableCell className="text-right">
-                  {}
-                </TableCell>
-                <TableCell className="text-right">
-                 {}
-                </TableCell>
-                <TableCell className="text-right">
-                  <Input />
-                </TableCell>
-                <TableCell className="text-right">
-                  <Input />
-                </TableCell>
-                <TableCell className="text-right">
-                  <Input />
-                </TableCell>
-                <TableCell className="text-right">
-                  <Input />
-                </TableCell>
+                <TableCell>50,000</TableCell>
+                <TableCell className="text-center">10,000</TableCell>
+                <TableCell className="text-center"> 100,000</TableCell>
+                <TableCell className="text-center">10,000</TableCell>
+                <TableCell className="text-center">0</TableCell>
+                <TableCell className="text-center">0</TableCell>
+                <TableCell className="text-center">170,000</TableCell>
               </TableRow>
             ))}
           </TableBody>
           <TableFooter></TableFooter>
         </Table>
         <div className="flex justify-end">
-          <Button>Submit</Button>
+          <Button>Print</Button>
         </div>
       </CardContent>
     </Card>

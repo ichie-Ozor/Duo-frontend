@@ -132,7 +132,7 @@ const data = {
         //   url: "dashboard",
         // },
         {
-          title: "Sales",
+          title: "Transfer",
           url: "kitchen/sales",
         },
         {
@@ -175,10 +175,10 @@ const data = {
       icon: SquareTerminal,
       isActive: false,
       items: [
-        // {
-        //   title: "Dashbord",
-        //   url: "dashboard",
-        // },
+        {
+          title: "Reports",
+          url: "admin/reports",
+        },
         // {
         //   title: "Sales",
         //   url: "kitchen/sales",

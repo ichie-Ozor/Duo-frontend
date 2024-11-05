@@ -72,10 +72,13 @@ export default function Menus() {
                 `users/create`,
                 staffForm,
                 (resp) => {
-                  console.log(resp);
+                    if(resp.success){
+                  toast.success(resp.message);}
+                  else if (resp.email){toast.error(resp.email);}
+                  else{toast.error(resp.message);}
                 },
                 (err) => {
-                  console.error(err);
+                  toast.error(err);
                 }
               );
              console.log(staffForm)
