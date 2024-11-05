@@ -9,17 +9,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+// import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { _get } from "@/lib/Helper";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 
-export default function VipOutputTable() {
+export default function VipOutputTable({page}) {
       const [stocks, setStocks] = useState([]);
-      const getStocks = () => {
+      const getStocks = useCallback(() => {
         _get(
-          `get/outstocks`,
+          `get/out-${page || 'vip'}`,
           (resp) => {
             if (resp.success) {
               setStocks(resp.data);
@@ -28,10 +28,10 @@ export default function VipOutputTable() {
           },
           (err) => console.error(err.message)
         );
-      };
+      },[page]);
       useEffect(() => {
         getStocks();
-      }, []);
+      }, [getStocks]);
   return (
     
         <Card className="pt-3">
@@ -41,26 +41,25 @@ export default function VipOutputTable() {
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[100px] text-">Id</TableHead>
-                  <TableHead className="text-">Item Name</TableHead>
+                  <TableHead className="text-">Menu</TableHead>
                   <TableHead className="text-">Date</TableHead>
                   <TableHead className="text-">Quantity</TableHead>
-                  <TableHead className="text-right">Collector</TableHead>
+                  <TableHead className="text-right">Payment Method</TableHead>
                   <TableHead className="text-right">Giver</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {stocks
-                  .filter((item) => item.destination === "vip")
                   .map((invoice, idx) => (
                     <TableRow key={invoice.idx}>
                       <TableCell className="font-medium">
                         {idx + 1}
                       </TableCell>
-                      <TableCell>{invoice.item_name}</TableCell>
+                      <TableCell>{invoice.menu}</TableCell>
                       <TableCell>{moment().format("YYYY-MM-DD")}</TableCell>
                       <TableCell>{invoice.out_qty}</TableCell>
                       <TableCell className="text-right">
-                        {invoice.name_of_collector}
+                        {invoice.payment_method}
                       </TableCell>
                       <TableCell className="text-right">
                         {invoice.name_of_giver}

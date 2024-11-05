@@ -132,7 +132,7 @@ const data = {
         //   url: "dashboard",
         // },
         {
-          title: "Sales",
+          title: "Transfer",
           url: "kitchen/sales",
         },
         {
@@ -175,22 +175,22 @@ const data = {
       icon: SquareTerminal,
       isActive: false,
       items: [
+        {
+          title: "Reports",
+          url: "admin/reports",
+        },
         // {
-        //   title: "Dashbord",
-        //   url: "dashboard",
+        //   title: "Sales",
+        //   url: "kitchen/sales",
         // },
-        {
-          title: "Sales",
-          url: "kitchen/sales",
-        },
-        {
-          title: "Stock",
-          url: "kitchen/stocks",
-        },
-        {
-          title: "Output",
-          url: "kitchen/output",
-        },
+        // {
+        //   title: "Stock",
+        //   url: "kitchen/stocks",
+        // },
+        // {
+        //   title: "Output",
+        //   url: "kitchen/output",
+        // },
       ],
     },
     // {
@@ -291,7 +291,7 @@ export function AppSidebar({
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
-        {/* <NavUser user={data.user} /> */}
+        <NavUser user={data.user} />
       </SidebarFooter>
       {/* <SidebarRail /> */}
     </Sidebar>)

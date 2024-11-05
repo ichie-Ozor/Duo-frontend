@@ -2,8 +2,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { _post } from "@/lib/Helper";
-import { useState } from "react";
+import { _get, _post } from "@/lib/Helper";
+import { useCallback, useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -11,32 +11,49 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { DatePicker } from "@/components/reuseables/DatePicker";
+// import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+// import { DatePicker } from "@/components/reuseables/DatePicker";
 import moment from "moment";
+import toast from "react-hot-toast";
 
 export default function VipSales({page}) {
-   const [outForm, setOutForm] = useState({out_qty:1,item_price:10000 });
+   const [outForm, setOutForm] = useState({out_qty:1 });
+    const [stocks, setStocks] = useState([]);
 
     const handleOutChange = ({ target: { name, value } }) => {
       console.log(name, value);
       setOutForm((p) => ({ ...p, [name]: value }));
     };
-
+    console.log(outForm)
+      const getStocks = useCallback(() => {
+        _get(
+          `get/menu`,
+          (resp) => {
+            if (resp.success) {
+              setStocks(resp.data);
+              //   alert(resp.data);
+            }
+          },
+          (err) => console.error(err.message)
+        );
+      }, []);
+      useEffect(() => {
+        getStocks();
+      }, [getStocks]);
         const handleOutSubmit = (e) => {
           e.preventDefault();
           console.log(outForm)
           // if(outForm.destination){
-          //   _post(
-          //     `stores?query_type=create_output`,
-          //     { ...outForm },
-          //     (resp) => {
-          //       alert(resp);
-          //     },
-          //     (err) => {
-          //       alert(err);
-          //     }
-          //   );
+            _post(
+              `insert-${page ? 'vibe' : "vip"}?query_type=create_output`,
+              { ...outForm },
+              (resp) => {
+                toast.success(resp.message);
+              },
+              (err) => {
+                toast.error(err.message);
+              }
+            );
           // }
         }; 
         const date = new Date().getTime();
@@ -54,9 +71,15 @@ export default function VipSales({page}) {
                 <div className=" w-full max items-center gap-1.5 md:grid-cols-2 ">
                   <Label htmlFor="item_name">Select Menu</Label>
                   <Select
-                    onValueChange={(value) =>
-                      setOutForm((p) => ({ ...p, menu: value }))
-                    }
+                    onValueChange={(value) => {
+                      const { menu_name, menu_price } = JSON.parse(value);
+                      console.log("Selected:", menu_name, menu_price);
+                      setOutForm((prev) => ({
+                        ...prev,
+                        menu: menu_name,
+                        item_price: menu_price,
+                      }));
+                    }}
                   >
                     <SelectTrigger
                       id="menu"
@@ -65,10 +88,17 @@ export default function VipSales({page}) {
                       <SelectValue placeholder="Select Menu to sale" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="palleta">Palleta</SelectItem>
-                      <SelectItem value="biryani">Chicken Biryani</SelectItem>
-                      <SelectItem value="other">Drinks</SelectItem>
-                      <SelectItem value="others">Others</SelectItem>
+                      {stocks.map((stock) => (
+                        <SelectItem
+                          key={stock.id}
+                          value={JSON.stringify({
+                            menu_name: stock.menu_name,
+                            menu_price: stock.menu_price,
+                          })}
+                        >
+                          {`${stock.menu_name}`}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                   {/* <Input
@@ -122,36 +152,62 @@ export default function VipSales({page}) {
               </div>
               <div className="flex flex-1 flex-row gap-4 p-4 pt-0">
                 <div className=" w-full max items-center gap-1.5 md:grid-cols-2 ">
-                  <Label htmlFor="method_of_payment">Method of payment</Label>
-                  <Select
-                    onValueChange={(value) =>
-                      setOutForm((p) => ({ ...p, payment_method: value }))
-                    }
-                  >
-                    <SelectTrigger
-                      id="payment_method"
-                      className="border-2 border-[#4267B2] focus:ring-[#4267B2] focus:border-[#4267B2]"
-                    >
-                      <SelectValue placeholder="Select Method of Payment" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="cash">Cash</SelectItem>
-                      <SelectItem value="pos">POS</SelectItem>
-                      <SelectItem value="transfer">Transfer</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  {page == "Kitchen" ? (
+                    <>
+                      <Label htmlFor="method_of_payment">Destination</Label>
+                      <Select
+                        onValueChange={(value) =>
+                          setOutForm((p) => ({ ...p, destination: value }))
+                        }
+                      >
+                        <SelectTrigger
+                          id="payment_method"
+                          className="border-2 border-[#4267B2] focus:ring-[#4267B2] focus:border-[#4267B2]"
+                        >
+                          <SelectValue placeholder="Select Destination" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="vip">Vip</SelectItem>
+                          <SelectItem value="vibe">Vibe</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </>
+                  ) : (
+                    <>
+                      <Label htmlFor="method_of_payment">
+                        Method of payment
+                      </Label>
+                      <Select
+                        onValueChange={(value) =>
+                          setOutForm((p) => ({ ...p, payment_method: value }))
+                        }
+                      >
+                        <SelectTrigger
+                          id="payment_method"
+                          className="border-2 border-[#4267B2] focus:ring-[#4267B2] focus:border-[#4267B2]"
+                        >
+                          <SelectValue placeholder="Select Method of Payment" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="cash">Cash</SelectItem>
+                          <SelectItem value="pos">POS</SelectItem>
+                          <SelectItem value="transfer">Transfer</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </>
+                  )}
                 </div>
               </div>
               <div className="flex flex-1 flex-row gap-4 p-4 pt-0">
                 <div className=" w-full max items-center gap-1.5 md:grid-cols-2">
-                  <Label htmlFor="cost">Discount (if applicable)</Label>
+                  <Label htmlFor="discount">Discount (if applicable)</Label>
                   <Input
                     onChange={handleOutChange}
-                    name="out_qty"
+                    name="discount"
                     type="number"
-                    id="in_qty"
-                    value={outForm.out_qty}
-                    placeholder="Quantity"
+                    id="discount"
+                    // value={outForm}
+                    placeholder="Discount"
                   />
                 </div>
               </div>

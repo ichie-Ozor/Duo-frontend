@@ -19,10 +19,14 @@ import VipOutputTable from "@/app/Vip/OutputTable";
 import Menus from "@/app/Manager/Menus";
 import Login from "@/app/auth/Login";
 import ManagerReport from "@/app/Manager/Reports";
+import { AuthContext } from "@/app/auth/Context";
+import { useContext } from "react";
+import AdminReport from "@/app/admin/Reports";
 
 export default function AppNavigation() {
   // const isAuthenticated = useSelector((state) => state.auth.authenticated);
-
+const { user, setUser, token, setToken } = useContext(AuthContext);
+ 
   let Pages = useRoutes([
     {
       path: "/login",
@@ -59,11 +63,11 @@ export default function AppNavigation() {
             },
             {
               path: "stocks",
-              element: <VipStockTable />,
+              element: <VipStockTable page="vip" />,
             },
             {
               path: "output",
-              element: <VipOutputTable />,
+              element: <VipOutputTable page="vip" />,
             },
           ],
         },
@@ -77,11 +81,11 @@ export default function AppNavigation() {
             },
             {
               path: "stocks",
-              element: <VipStockTable />,
+              element: <VipStockTable page="vibe" />,
             },
             {
               path: "output",
-              element: <VipOutputTable />,
+              element: <VipOutputTable page="vibe" />,
             },
           ],
         },
@@ -95,11 +99,11 @@ export default function AppNavigation() {
             },
             {
               path: "stocks",
-              element: <VipStockTable />,
+              element: <VipStockTable page="kitchen" />,
             },
             {
               path: "output",
-              element: <VipOutputTable />,
+              element: <VipOutputTable page='kitchen'/>,
             },
           ],
         },
@@ -126,12 +130,12 @@ export default function AppNavigation() {
           element: <Outlet />,
           children: [
             {
-              path: "sales",
-              element: <VipSales />,
+              path: "reports",
+              element: <AdminReport />,
             },
             {
               path: "stocks",
-              element: <VipStockTable />,
+              element: <VipStockTable page="vip" />,
             },
             {
               path: "output",

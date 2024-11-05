@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { Menu, Package2, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -244,10 +244,19 @@ import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
+<<<<<<< HEAD
 } from "@/components/ui/sidebar";
 
 export default function AppIndex() {
   const location = useLocation();
+=======
+} from "@/components/ui/sidebar"
+import { AuthContext } from "@/app/auth/Context";
+
+export default function AppIndex() {
+  const location = useLocation()
+  const { user, setUser, token, setToken } = useContext(AuthContext);
+>>>>>>> 79762a9e97b4f37642894f494129901e5852c34e
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -259,7 +268,13 @@ export default function AppIndex() {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
+<<<<<<< HEAD
                   <BreadcrumbLink href="dashboard">Store</BreadcrumbLink>
+=======
+                  <BreadcrumbLink href="dashboard">
+                    Store 
+                  </BreadcrumbLink>
+>>>>>>> 79762a9e97b4f37642894f494129901e5852c34e
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
@@ -269,7 +284,7 @@ export default function AppIndex() {
             </Breadcrumb>
           </div>
           <h3 className="mr-6 pr-5 text-2xl">
-            Frank Edward
+          {user.name}
           </h3>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">

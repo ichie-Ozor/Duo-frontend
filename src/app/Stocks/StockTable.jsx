@@ -57,8 +57,20 @@ export function StockTable() {
                 <TableCell>{stock.in_qty}</TableCell>
                 <TableCell className="text-right">{stock.item_cost}</TableCell>
                 <TableCell className="text-right">
+<<<<<<< HEAD
                   <Badge variant={stock.in_qty <= 5 ? "destructive" : ""}>
                     {stock.in_qty <= 5 ? "Critical" : "Normal"}
+=======
+                  {stock.item_cost}
+                </TableCell>
+                <TableCell className="text-right">
+                  <Badge
+                    variant={
+                      stock.in_qty < 5 ? "destructive" : ""
+                    }
+                  >
+                    {stock.in_qty < 5 ? "Critical" : "Normal"}
+>>>>>>> 79762a9e97b4f37642894f494129901e5852c34e
                   </Badge>
                 </TableCell>
               </TableRow>
