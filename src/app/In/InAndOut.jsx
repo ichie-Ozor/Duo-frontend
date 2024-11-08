@@ -55,6 +55,15 @@ export default function InAndOut() {
               // alert(resp);
               if (resp.success) {
               toast.success("Item added to store successfully");
+              setInForm({
+                item_name: "",
+                item_cost: "",
+                item_quantity: "",
+                in_qty: "",
+                name_of_giver: "",
+                buyers_name: "",
+                invoice:'',
+              });
               }else{
                  toast.error(resp.error);
               }
@@ -75,6 +84,12 @@ export default function InAndOut() {
               (resp) => {
                if(resp.success){
                 toast.success("Item Collected Successfully");
+                setOutForm({
+                  item_name: "",
+                  item_cost: "",
+                  destination: "",
+                  out_qty: "",
+                })
                }
               },
               (err) => {
@@ -98,6 +113,7 @@ export default function InAndOut() {
                     name="item_name"
                     type="text"
                     id="item_name"
+                    value={inForm.item_name}
                     required
                     placeholder="Item Name"
                   />
@@ -111,6 +127,7 @@ export default function InAndOut() {
                     name="item_cost"
                     type="number"
                     id="item_cost"
+                    value={inForm.item_cost}
                     placeholder="Cost"
                   />
                 </div>
@@ -153,6 +170,7 @@ export default function InAndOut() {
                     name="in_qty"
                     type="number"
                     id="quantity"
+                    value={inForm.in_qty}
                     required
                     placeholder="Quantity"
                   />
@@ -166,6 +184,7 @@ export default function InAndOut() {
                     name="buyers_name"
                     type="text"
                     id="buyers_name"
+                    value={inForm.buyers_name}
                     placeholder="Buyer Name"
                   />
                 </div>
@@ -178,6 +197,7 @@ export default function InAndOut() {
                     name="invoice"
                     type="text"
                     id="invoive"
+                    value={inForm.invoice}
                     placeholder="Invoice Number"
                   />
                 </div>
@@ -196,6 +216,7 @@ export default function InAndOut() {
                 <div className=" w-full max items-center gap-1.5 md:grid-cols-2 ">
                   <Label htmlFor="item_name">Item Name</Label>
                   <Select
+                  selected={outForm.item_name}
                     onValueChange={(value) =>
                       setOutForm((p) => ({ ...p, item_name: value, item_cost:stocks.filter(c => c.item_name === value)[0].item_cost}))
                     }
@@ -265,6 +286,7 @@ export default function InAndOut() {
                     name="out_qty"
                     type="number"
                     id="out_qty"
+                    value={outForm.out_qty}
                     min={0}
                     required
                     placeholder="Quantity"
@@ -275,6 +297,7 @@ export default function InAndOut() {
                 <div className=" w-full max items-center gap-1.5 md:grid-cols-2 ">
                   <Label htmlFor="date">Destination</Label>
                   <Select
+                  selected={outForm.destination}
                   onValueChange={(SelectValue) =>
                     setOutForm(p => ({...p,destination :SelectValue}))
                   }
