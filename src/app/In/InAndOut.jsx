@@ -18,71 +18,72 @@ import moment from "moment";
 import toast from "react-hot-toast";
 
 export default function InAndOut() {
-  const [inForm,setInForm] = useState({})
-   const [outForm, setOutForm] = useState({name_of_giver:"Frank Edward"});
-    const [stocks, setStocks] = useState([]);
-    const getStocks = () => {
-      _get(
-        `get/stock`,
+  const [inForm, setInForm] = useState({});
+  const [outForm, setOutForm] = useState({ name_of_giver: "Frank Edward" });
+  const [stocks, setStocks] = useState([]);
+  const getStocks = () => {
+    _get(
+      `get/stock`,
+      (resp) => {
+        if (resp.success) {
+          setStocks(resp.data);
+          // alert(resp.data);
+        }
+      },
+      (err) => console.error(err.message)
+    );
+  };
+  useEffect(() => {
+    getStocks();
+  }, []);
+  const handleInChange = ({ target: { name, value } }) => {
+    console.log(name, value);
+    setInForm((p) => ({ ...p, [name]: value }));
+  };
+  const handleOutChange = ({ target: { name, value } }) => {
+    console.log(name, value);
+    setOutForm((p) => ({ ...p, [name]: value }));
+  };
+
+  const handleInSubmit = (e) => {
+    e.preventDefault();
+
+    _post(
+      `stores?query_type=create_input`,
+      { ...inForm },
+      (resp) => {
+        // alert(resp);
+        if (resp.success) {
+          toast.success("Item added to store successfully");
+        } else {
+          toast.error(resp.error);
+        }
+      },
+      (err) => {
+        // alert(err);
+        toast.error(err.success);
+      }
+    );
+    setInForm((p) => ({ ...p }));
+    console.log(p);
+  };
+  const handleOutSubmit = (e) => {
+    e.preventDefault();
+    if (outForm.destination) {
+      _post(
+        `stores?query_type=create_output`,
+        { ...outForm },
         (resp) => {
           if (resp.success) {
-            setStocks(resp.data);
-            // alert(resp.data);
+            toast.success("Item Collected Successfully");
           }
         },
-        (err) => console.error(err.message)
+        (err) => {
+          alert(err);
+        }
       );
-    };
-    useEffect(() => {
-      getStocks();
-    }, []);
-  const handleInChange = ({target:{name, value}}) => {
-    console.log(name, value);
-    setInForm(p => ({...p, [name]:value}))
-  }
-    const handleOutChange = ({ target: { name, value } }) => {
-      console.log(name, value);
-      setOutForm((p) => ({ ...p, [name]: value }));
-    };
-
-      const handleInSubmit = (e) => {
-        e.preventDefault();
-
-          _post(
-            `stores?query_type=create_input`,
-            { ...inForm },
-            (resp ) => {
-              // alert(resp);
-              if (resp.success) {
-              toast.success("Item added to store successfully");
-              }else{
-                 toast.error(resp.error);
-              }
-            },
-            (err) => {
-              // alert(err);
-              toast.error(err.success);
-            }
-          );
-        
-      }; 
-        const handleOutSubmit = (e) => {
-          e.preventDefault();
-          if(outForm.destination){
-            _post(
-              `stores?query_type=create_output`,
-              { ...outForm },
-              (resp) => {
-               if(resp.success){
-                toast.success("Item Collected Successfully");
-               }
-              },
-              (err) => {
-                alert(err);
-              }
-            );
-          }
-        }; 
+    }
+  };
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
       <div className="grid auto-rows-min gap-4 md:grid-cols-2">
@@ -197,7 +198,13 @@ export default function InAndOut() {
                   <Label htmlFor="item_name">Item Name</Label>
                   <Select
                     onValueChange={(value) =>
-                      setOutForm((p) => ({ ...p, item_name: value, item_cost:stocks.filter(c => c.item_name === value)[0].item_cost}))
+                      setOutForm((p) => ({
+                        ...p,
+                        item_name: value,
+                        item_cost: stocks.filter(
+                          (c) => c.item_name === value
+                        )[0].item_cost,
+                      }))
                     }
                   >
                     <SelectTrigger
@@ -275,9 +282,9 @@ export default function InAndOut() {
                 <div className=" w-full max items-center gap-1.5 md:grid-cols-2 ">
                   <Label htmlFor="date">Destination</Label>
                   <Select
-                  onValueChange={(SelectValue) =>
-                    setOutForm(p => ({...p,destination :SelectValue}))
-                  }
+                    onValueChange={(SelectValue) =>
+                      setOutForm((p) => ({ ...p, destination: SelectValue }))
+                    }
                   >
                     <SelectTrigger
                       id="gender"
