@@ -42,8 +42,9 @@ export default function VipSales({ page }) {
       `insert-${page ? "vibe" : "vip"}?query_type=create_output`,
       { ...outForm },
       (resp) => {
-        toast.success(resp.message);
+        // toast.success(resp.message);
         setInvoice([...invoice, outForm]);
+        setOutForm({ out_qty: 1 , menu: "", item_price: 0 , payment_method:""});
         setShowInvoice(true);
       },
       (err) => {
@@ -76,6 +77,7 @@ export default function VipSales({ page }) {
                 <div className="w-full max items-center gap-1.5 md:grid-cols-2 ">
                   <Label htmlFor="item_name">Select Menu</Label>
                   <Select
+                  value={outForm.menu}
                     onValueChange={(value) => {
                       const { menu_name, menu_price } = JSON.parse(value);
                       setOutForm((prev) => ({
@@ -141,6 +143,7 @@ export default function VipSales({ page }) {
                 <div className="w-full max items-center gap-1.5 md:grid-cols-2">
                   <Label htmlFor="method_of_payment">Method of payment</Label>
                   <Select
+                  value={outForm.payment_method}
                     onValueChange={(value) =>
                       setOutForm((p) => ({ ...p, payment_method: value }))
                     }
@@ -168,6 +171,7 @@ export default function VipSales({ page }) {
                     name="discount"
                     type="number"
                     id="discount"
+                    value={outForm.discount}
                     placeholder="Discount"
                   />
                 </div>
