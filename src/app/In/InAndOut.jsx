@@ -74,7 +74,7 @@ export default function InAndOut() {
       }
     );
     setInForm((p) => ({ ...p }));
-    console.log(p);
+    // console.log(p);
   };
   const handleOutSubmit = (e) => {
     e.preventDefault();

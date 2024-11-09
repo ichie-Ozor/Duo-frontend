@@ -14,45 +14,45 @@ import { server_url } from "@/lib/Helper";
 // import { Card } from "@/components/ui/card";
 
 export default function Login() {
-//   const dispatch = useDispatch();
+  //   const dispatch = useDispatch();
   const initForm = {
     email: "",
-    password: ""
+    password: "",
   };
   const [form, setForm] = useState(initForm);
   const [loading, setLoading] = useState(false);
- const [showPassword, setShowPassword] = useState(false);
-const [errorMessage, setErrorMessage] = useState("");
-const history = useNavigate();
-const { user, setUser, token, setToken } = useContext(AuthContext);
+  const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const history = useNavigate();
+  const { user, setUser, token, setToken } = useContext(AuthContext);
 
- const handleLogin = (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-   console.log("Login");
-   fetch(`${server_url}/users/login`, {
-     method: "POST",
-     headers: {
-       "Content-Type": "application/json",
-     },
-     body: JSON.stringify(form),
-   })
-     .then((raw) => raw.json())
-     .then((data) => {
-       console.log(data);
-       if (data.success) {
-         setUser(data.user);
-         setToken(data.token);
-        //  console.log(data);
-         history("/in-out" );
-       } else {
-         console.log(data);
-        //  setError(data);
-       }
-     })
-     .catch((err) => {
-       console.error(err, "rtyui");
-     });
- };
+    console.log("Login");
+    fetch(`${server_url}/users/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    })
+      .then((raw) => raw.json())
+      .then((data) => {
+        console.log(data, "data of user");
+        if (data.success) {
+          setUser(data.user);
+          setToken(data.token);
+          //  console.log(data);
+          history("/in-out");
+        } else {
+          console.log(data);
+          //  setError(data);
+        }
+      })
+      .catch((err) => {
+        console.error(err, "rtyui");
+      });
+  };
   const handleChange = ({ target: { value, name } }) => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
@@ -148,7 +148,7 @@ const { user, setUser, token, setToken } = useContext(AuthContext);
             <p className="text-danger text-center">{errorMessage}</p>
           )}
           <div className="mt-4 text-center text-sm">
-            <Link to="/auth/login" className="underlin">
+            <Link to="/auth/login" className="underline">
               Forget Password?
             </Link>
           </div>

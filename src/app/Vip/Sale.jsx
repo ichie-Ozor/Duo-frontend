@@ -25,11 +25,15 @@ export default function VipSales({ page }) {
   };
 
   const getStocks = useCallback(() => {
-    _get("get/menu", (resp) => {
-      if (resp.success) {
-        setStocks(resp.data);
-      }
-    }, (err) => console.error(err.message));
+    _get(
+      "get/menu",
+      (resp) => {
+        if (resp.success) {
+          setStocks(resp.data);
+        }
+      },
+      (err) => console.error(err.message)
+    );
   }, []);
 
   useEffect(() => {
@@ -44,7 +48,7 @@ export default function VipSales({ page }) {
       (resp) => {
         // toast.success(resp.message);
         setInvoice([...invoice, outForm]);
-        setOutForm({ out_qty: 1 , menu: "", item_price: 0 , payment_method:""});
+        setOutForm({ out_qty: 1, menu: "", item_price: 0, payment_method: "" });
         setShowInvoice(true);
       },
       (err) => {
@@ -77,7 +81,7 @@ export default function VipSales({ page }) {
                 <div className="w-full max items-center gap-1.5 md:grid-cols-2 ">
                   <Label htmlFor="item_name">Select Menu</Label>
                   <Select
-                  value={outForm.menu}
+                    selected={outForm.menu}
                     onValueChange={(value) => {
                       const { menu_name, menu_price } = JSON.parse(value);
                       setOutForm((prev) => ({
@@ -143,7 +147,7 @@ export default function VipSales({ page }) {
                 <div className="w-full max items-center gap-1.5 md:grid-cols-2">
                   <Label htmlFor="method_of_payment">Method of payment</Label>
                   <Select
-                  value={outForm.payment_method}
+                    value={outForm.payment_method}
                     onValueChange={(value) =>
                       setOutForm((p) => ({ ...p, payment_method: value }))
                     }
