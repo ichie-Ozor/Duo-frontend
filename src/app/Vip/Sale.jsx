@@ -17,8 +17,14 @@ import toast from "react-hot-toast";
 export default function VipSales({ page }) {
   const [outForm, setOutForm] = useState({ out_qty: 1 });
   const [stocks, setStocks] = useState([]);
-  const [invoice, setInvoice] = useState([]); // Track the items added to the invoice
-  const [showInvoice, setShowInvoice] = useState(false); // Toggle invoice visibility
+  const [invoice, setInvoice] = useState([]);
+  const [showInvoice, setShowInvoice] = useState(false);
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    const loggedUser = "Frank Edward";
+    setUsername(loggedUser);
+  }, []);
 
   const handleOutChange = ({ target: { name, value } }) => {
     setOutForm((p) => ({ ...p, [name]: value }));
@@ -64,8 +70,18 @@ export default function VipSales({ page }) {
   };
 
   const printInvoice = () => {
+    const printContent = document.getElementById("invoiceSection").innerHTML;
+    const originalContent = document.body.innerHTML;
+    document.body.innerHTML = printContent;
     window.print();
+    document.body.innerHTML = originalContent;
+    window.location.reload();
   };
+
+  const totalSum = invoice.reduce(
+    (sum, item) => sum + item.item_price * item.out_qty,
+    0
+  );
 
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
@@ -78,7 +94,7 @@ export default function VipSales({ page }) {
           <CardContent className="px-2 pb-2">
             <form onSubmit={handleOutSubmit}>
               <div className="flex flex-1 flex-row gap-4 p-4 pt-0">
-                <div className="w-full max items-center gap-1.5 md:grid-cols-2 ">
+                <div className="w-full max items-center gap-1.5 md:grid-cols-2">
                   <Label htmlFor="item_name">Select Menu</Label>
                   <Select
                     selected={outForm.menu}
@@ -189,46 +205,58 @@ export default function VipSales({ page }) {
         </Card>
 
         {showInvoice && (
-          <Card>
-            <CardHeader className="font-medium text-3xl">Invoice</CardHeader>
-            <CardContent className="px-2 pb-2">
-              <table className="min-w-full mt-4 border-collapse">
-                <thead>
-                  <tr>
-                    <th className="px-4 py-2 border">Menu</th>
-                    <th className="px-4 py-2 border">Price</th>
-                    <th className="px-4 py-2 border">Quantity</th>
-                    <th className="px-4 py-2 border">Total</th>
-                    <th className="px-4 py-2 border">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {invoice.map((item, index) => (
-                    <tr key={index}>
-                      <td className="px-4 py-2 border">{item.menu}</td>
-                      <td className="px-4 py-2 border">{item.item_price}</td>
-                      <td className="px-4 py-2 border">{item.out_qty}</td>
-                      <td className="px-4 py-2 border">
-                        {item.item_price * item.out_qty}
-                      </td>
-                      <td className="px-4 py-2 border">
-                        <Button
-                          onClick={() => deleteItem(index)}
-                          className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
-                        >
-                          Delete
-                        </Button>
-                      </td>
+          <div id="invoiceSection">
+            <Card>
+              <CardHeader className="font-medium text-3xl">Invoice</CardHeader>
+              <CardContent className="px-2 pb-2">
+                <div className="mb-4 text-lg font-semibold">
+                  Issued by: {username}
+                </div>
+                <table className="min-w-full mt-4 border-collapse">
+                  <thead>
+                    <tr>
+                      <th className="px-4 py-2 border">Menu</th>
+                      <th className="px-4 py-2 border">Price</th>
+                      <th className="px-4 py-2 border">Quantity</th>
+                      <th className="px-4 py-2 border">Total</th>
+                      <th className="px-4 py-2 border">Action</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {invoice.map((item, index) => (
+                      <tr key={index}>
+                        <td className="px-4 py-2 border">{item.menu}</td>
+                        <td className="px-4 py-2 border">{item.item_price}</td>
+                        <td className="px-4 py-2 border">{item.out_qty}</td>
+                        <td className="px-4 py-2 border">
+                          {item.item_price * item.out_qty}
+                        </td>
+                        <td className="px-4 py-2 border">
+                          <Button
+                            onClick={() => deleteItem(index)}
+                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                          >
+                            Delete
+                          </Button>
+                        </td>
+                      </tr>
+                    ))}
+                    <tr>
+                      <td colSpan="3" className="px-4 py-2 border font-bold">
+                        Total
+                      </td>
+                      <td className="px-4 py-2 border font-bold">{totalSum}</td>
+                      <td className="px-4 py-2 border"></td>
+                    </tr>
+                  </tbody>
+                </table>
 
-              <div className="flex justify-center mt-4">
-                <Button onClick={printInvoice}>Print Now</Button>
-              </div>
-            </CardContent>
-          </Card>
+                <div className="flex justify-center mt-4">
+                  <Button onClick={printInvoice}>Print Now</Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         )}
       </div>
     </div>
