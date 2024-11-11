@@ -21,6 +21,7 @@ export default function InAndOut() {
   const [inForm,setInForm] = useState({})
    const [outForm, setOutForm] = useState({name_of_giver:"Frank Edward"});
     const [stocks, setStocks] = useState([]);
+    const [qty,setQty] = useState(0);
     const getStocks = () => {
       _get(
         `get/stock`,
@@ -44,7 +45,7 @@ export default function InAndOut() {
       console.log(name, value);
       setOutForm((p) => ({ ...p, [name]: value }));
     };
-
+console.log(qty);
       const handleInSubmit = (e) => {
         e.preventDefault();
 
@@ -216,10 +217,17 @@ export default function InAndOut() {
                 <div className=" w-full max items-center gap-1.5 md:grid-cols-2 ">
                   <Label htmlFor="item_name">Item Name</Label>
                   <Select
-                  selected={outForm.item_name}
-                    onValueChange={(value) =>
-                      setOutForm((p) => ({ ...p, item_name: value, item_cost:stocks.filter(c => c.item_name === value)[0].item_cost}))
-                    }
+                    selected={outForm.item_name}
+                    onValueChange={(value) => {
+                      const { item_name, item_cost, in_qty } =
+                        JSON.parse(value);
+                      setOutForm((p) => ({
+                        ...p,
+                        item_name: item_name,
+                        item_cost: item_cost,
+                      }));
+                      setQty(in_qty);
+                    }}
                   >
                     <SelectTrigger
                       id="items"
@@ -228,14 +236,16 @@ export default function InAndOut() {
                       <SelectValue placeholder="Select Item" />
                     </SelectTrigger>
                     <SelectContent>
-                      {stocks?.map((stock) => (
-                        <SelectItem
-                          key={stock.item_name}
-                          value={stock.item_name || "ahmad"}
-                        >
-                          {stock.item_name}
-                        </SelectItem>
-                      ))}
+                      {stocks
+                        ?.filter((item) => item.in_qty > 0)
+                        .map((stock) => (
+                          <SelectItem
+                            key={stock.item_name}
+                            value={JSON.stringify(stock)}
+                          >
+                            {stock.item_name}
+                          </SelectItem>
+                        ))}
                     </SelectContent>
                   </Select>
                   {/* <Input
@@ -280,7 +290,7 @@ export default function InAndOut() {
               </div>
               <div className="flex flex-1 flex-row gap-4 p-4 pt-0">
                 <div className=" w-full max items-center gap-1.5 md:grid-cols-2">
-                  <Label htmlFor="out_qty">Quantity</Label>
+                  <Label htmlFor="out_qty">Quantity {`Available (${qty})`}</Label>
                   <Input
                     onChange={handleOutChange}
                     name="out_qty"
@@ -288,6 +298,7 @@ export default function InAndOut() {
                     id="out_qty"
                     value={outForm.out_qty}
                     min={0}
+                    max={qty}
                     required
                     placeholder="Quantity"
                   />
@@ -297,10 +308,10 @@ export default function InAndOut() {
                 <div className=" w-full max items-center gap-1.5 md:grid-cols-2 ">
                   <Label htmlFor="date">Destination</Label>
                   <Select
-                  selected={outForm.destination}
-                  onValueChange={(SelectValue) =>
-                    setOutForm(p => ({...p,destination :SelectValue}))
-                  }
+                    selected={outForm.destination}
+                    onValueChange={(SelectValue) =>
+                      setOutForm((p) => ({ ...p, destination: SelectValue }))
+                    }
                   >
                     <SelectTrigger
                       id="gender"
