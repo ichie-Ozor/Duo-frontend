@@ -22,6 +22,7 @@ import ManagerReport from "@/app/Manager/Reports";
 import { AuthContext } from "@/app/auth/Context";
 import { useContext } from "react";
 import AdminReport from "@/app/admin/Reports";
+import Transfer from "@/app/Kitchen/Transfer";
 
 export default function AppNavigation() {
   // const isAuthenticated = useSelector((state) => state.auth.authenticated);
@@ -94,8 +95,8 @@ const { user, setUser, token, setToken } = useContext(AuthContext);
           element: <Outlet />,
           children: [
             {
-              path: "sales",
-              element: <VipSales page="Kitchen" />,
+              path: "transfer",
+              element: <Transfer page="Kitchen" />,
             },
             {
               path: "stocks",
