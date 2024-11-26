@@ -11,6 +11,7 @@ import { Link, replace, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Loader } from "lucide-react";
 import { AuthContext } from "./Context";
 import { server_url } from "@/lib/Helper";
+import toast from "react-hot-toast";
 // import { Card } from "@/components/ui/card";
 
 export default function Login() {
@@ -40,12 +41,14 @@ export default function Login() {
       .then((data) => {
         console.log(data, "data of user");
         if (data.success) {
+          toast.success(" You are successfully logedin");
           setUser(data.user);
           setToken(data.token);
-          //  console.log(data);
-          history("/in-out");
+          history("/dashboard");
+          // history("/in-out");
         } else {
           console.log(data);
+          toast.error(data.username);
           //  setError(data);
         }
       })

@@ -11,7 +11,8 @@ import {
   Settings2,
   SquareTerminal,
 } from "lucide-react";
-
+import { useContext } from "react";
+import { AuthContext } from "@/app/auth/Context";
 import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
@@ -61,14 +62,17 @@ const data = {
         {
           title: "In & Out",
           url: "In-out",
+          roles: ["store"],
         },
         {
           title: "Stock",
           url: "stocks",
+          roles: ["store", "manager", "admin"],
         },
         {
           title: "Output",
           url: "output",
+          roles: ["store", "manager", "admin"],
         },
       ],
     },
@@ -85,14 +89,17 @@ const data = {
         {
           title: "Sales",
           url: "vip/sales",
+          roles: ["vip"],
         },
         {
           title: "Stock",
           url: "vip/stocks",
+          roles: ["vip", "manager", "admin"],
         },
         {
           title: "Output",
           url: "vip/output",
+          roles: ["vip", "manager", "admin"],
         },
       ],
     },
@@ -109,14 +116,17 @@ const data = {
         {
           title: "Sales",
           url: "vibe/sales",
+          roles: ["vibe"],
         },
         {
           title: "Stock",
           url: "vibe/stocks",
+          roles: ["vibe", "manager", "admin"],
         },
         {
           title: "Output",
           url: "vibe/output",
+          roles: ["vibe", "manager", "admin"],
         },
       ],
     },
@@ -133,14 +143,17 @@ const data = {
         {
           title: "Transfer",
           url: "kitchen/sales",
+          roles: ["kitchen"],
         },
         {
           title: "Stock",
           url: "kitchen/stocks",
+          roles: ["kitchen", "manager", "admin"],
         },
         {
           title: "Output",
           url: "kitchen/output",
+          roles: ["kitchen", "manager", "admin"],
         },
       ],
     },
@@ -157,10 +170,12 @@ const data = {
         {
           title: "Report",
           url: "manager/report",
+          roles: ["manager", "admin"],
         },
         {
           title: "Settings",
           url: "manager/menu",
+          roles: ["manager", "admin"],
         },
         // {
         //   title: "Output",
@@ -177,6 +192,7 @@ const data = {
         {
           title: "Reports",
           url: "admin/reports",
+          roles: ["admin"],
         },
         // {
         //   title: "Sales",
@@ -196,13 +212,27 @@ const data = {
 };
 
 export function AppSidebar({ ...props }) {
+  const { user } = useContext(AuthContext);
+  const userRole = user?.accessTo;
+
+  console.log(userRole, "user role", user);
+
+  const filteredNavMain = data.navMain.filter((item) => {
+    return item.items.roles?.includes(userRole);
+  });
+
+  const navItems = filteredNavMain.map((item) => ({
+    ...item,
+    items: item.items?.filter((subItem) => subItem.roles?.includes(userRole)),
+  }));
+
   return (
     <Sidebar collapsible="icon" {...props} className="duo-sidebar">
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={navItems} />
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>

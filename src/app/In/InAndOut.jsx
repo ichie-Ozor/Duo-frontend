@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { _get, _post } from "@/lib/Helper";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import {
   Select,
   SelectContent,
@@ -11,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { AuthContext } from "../auth/Context";
 // import { Calendar } from "@/components/ui/calendar";
 // import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { DatePicker } from "@/components/reuseables/DatePicker";
@@ -18,8 +19,9 @@ import moment from "moment";
 import toast from "react-hot-toast";
 
 export default function InAndOut() {
+  const { user } = useContext(AuthContext);
   const [inForm, setInForm] = useState({});
-  const [outForm, setOutForm] = useState({ name_of_giver: "Frank Edward" });
+  const [outForm, setOutForm] = useState({ name_of_giver: user.name });
   const [stocks, setStocks] = useState([]);
   const [qty, setQty] = useState(0);
   const getStocks = () => {
@@ -78,6 +80,7 @@ export default function InAndOut() {
     // console.log(p);
   };
   const handleOutSubmit = (e) => {
+    console.log(outForm, "going out");
     e.preventDefault();
     if (outForm.destination) {
       _post(
@@ -91,6 +94,7 @@ export default function InAndOut() {
               item_cost: "",
               destination: "",
               out_qty: "",
+              collectors_name: "",
             });
           }
         },
@@ -219,15 +223,19 @@ export default function InAndOut() {
                   <Label htmlFor="item_name">Item Name</Label>
                   <Select
                     selected={outForm.item_name}
-                    onValueChange={(value) =>
+                    onValueChange={(value) => {
+                      const { item_name, item_cost, in_qty } =
+                        JSON.parse(value);
                       setOutForm((p) => ({
                         ...p,
-                        item_name: value,
-                        item_cost: stocks.filter(
-                          (c) => c.item_name === value
-                        )[0].item_cost,
-                      }))
-                    }
+                        item_name: item_name,
+                        item_cost: item_cost,
+                        // item_cost: stocks.filter(
+                        //   (c) => c.item_name === value
+                        // )[0]?.item_cost
+                      }));
+                      setQty(in_qty);
+                    }}
                   >
                     <SelectTrigger
                       id="items"
@@ -335,6 +343,20 @@ export default function InAndOut() {
                     id="date"
                     placeholder="Destination"
                   /> */}
+                </div>
+              </div>
+              <div className="flex flex-1 flex-row gap-4 p-4 pt-0">
+                <div className=" w-full max items-center gap-1.5 md:grid-cols-2">
+                  <Label htmlFor="collectors_name">Collectors Name</Label>
+                  <Input
+                    onChange={handleOutChange}
+                    name="collectors_name"
+                    type="text"
+                    id="collectors_name"
+                    value={outForm.collectors_name}
+                    required
+                    placeholder="Collectors Name"
+                  />
                 </div>
               </div>
               <div className="flex flex-1 justify-center flex-row gap-4 p-4 pt-0">

@@ -11,6 +11,7 @@ import NotFound from "./NotFound";
 // import { useDispatch, useSelector } from "react-redux";
 import Dashboard from "@/app/dashboard/page";
 import { StockTable } from "@/app/Stocks/StockTable";
+import ProtectedRoute from "./Protected";
 import InAndOut from "@/app/In/InAndOut";
 import OutputTable from "@/app/Stocks/OutputTable";
 import VipSales from "@/app/Vip/Sale";
@@ -25,8 +26,10 @@ import AdminReport from "@/app/admin/Reports";
 
 export default function AppNavigation() {
   // const isAuthenticated = useSelector((state) => state.auth.authenticated);
-const { user, setUser, token, setToken } = useContext(AuthContext);
- 
+  const { user, setUser, token, setToken } = useContext(AuthContext);
+
+  console.log(user, "navigation ");
+
   let Pages = useRoutes([
     {
       path: "/login",
@@ -39,18 +42,34 @@ const { user, setUser, token, setToken } = useContext(AuthContext);
           path: "dashboard",
           element: <Dashboard />,
         },
+        // {
+        //   path: "in-out",
+        //   element: <InAndOut />,
+        // },
         {
           path: "in-out",
-          element: <InAndOut />,
+          element: (
+            <ProtectedRoute rolesAllowed={["store"]}>
+              <InAndOut />
+            </ProtectedRoute>
+          ),
         },
         {
           path: "stocks",
-          element: <StockTable />,
+          element: (
+            <ProtectedRoute rolesAllowed={["admin", "manager", "store"]}>
+              <StockTable />
+            </ProtectedRoute>
+          ),
         },
 
         {
           path: "output",
-          element: <OutputTable />,
+          element: (
+            <ProtectedRoute rolesAllowed={["admin", "manager", "store"]}>
+              <OutputTable />
+            </ProtectedRoute>
+          ),
         },
 
         {
@@ -59,15 +78,27 @@ const { user, setUser, token, setToken } = useContext(AuthContext);
           children: [
             {
               path: "sales",
-              element: <VipSales />,
+              element: (
+                <ProtectedRoute rolesAllowed={["vip"]}>
+                  <VipSales />
+                </ProtectedRoute>
+              ),
             },
             {
               path: "stocks",
-              element: <VipStockTable page="vip" />,
+              element: (
+                <ProtectedRoute rolesAllowed={["admin", "manager", "vip"]}>
+                  <VipStockTable page="vip" />
+                </ProtectedRoute>
+              ),
             },
             {
               path: "output",
-              element: <VipOutputTable page="vip" />,
+              element: (
+                <ProtectedRoute rolesAllowed={["manager", "admin", "vip"]}>
+                  <VipOutputTable page="vip" />
+                </ProtectedRoute>
+              ),
             },
           ],
         },
@@ -77,15 +108,27 @@ const { user, setUser, token, setToken } = useContext(AuthContext);
           children: [
             {
               path: "sales",
-              element: <VipSales page="Vibe" />,
+              element: (
+                <ProtectedRoute rolesAllowed={["vibe"]}>
+                  <VipSales page="Vibe" />
+                </ProtectedRoute>
+              ),
             },
             {
               path: "stocks",
-              element: <VipStockTable page="vibe" />,
+              element: (
+                <ProtectedRoute rolesAllowed={["admin", "manager", "vibe"]}>
+                  <VipStockTable page="vibe" />
+                </ProtectedRoute>
+              ),
             },
             {
               path: "output",
-              element: <VipOutputTable page="vibe" />,
+              element: (
+                <ProtectedRoute rolesAllowed={["admin", "manager", "vibe"]}>
+                  <VipOutputTable page="vibe" />
+                </ProtectedRoute>
+              ),
             },
           ],
         },
@@ -95,15 +138,27 @@ const { user, setUser, token, setToken } = useContext(AuthContext);
           children: [
             {
               path: "sales",
-              element: <VipSales page="Kitchen" />,
+              element: (
+                <ProtectedRoute rolesAllowed={["kitchen"]}>
+                  <VipSales page="Kitchen" />
+                </ProtectedRoute>
+              ),
             },
             {
               path: "stocks",
-              element: <VipStockTable page="kitchen" />,
+              element: (
+                <ProtectedRoute rolesAllowed={["admin", "manager", "kitchen"]}>
+                  <VipStockTable page="kitchen" />
+                </ProtectedRoute>
+              ),
             },
             {
               path: "output",
-              element: <VipOutputTable page='kitchen'/>,
+              element: (
+                <ProtectedRoute rolesAllowed={["admin", "manager", "kitchen"]}>
+                  <VipOutputTable page="kitchen" />
+                </ProtectedRoute>
+              ),
             },
           ],
         },
@@ -113,16 +168,24 @@ const { user, setUser, token, setToken } = useContext(AuthContext);
           children: [
             {
               path: "report",
-              element: <ManagerReport />,
+              element: (
+                <ProtectedRoute rolesAllowed={["manager", "admin"]}>
+                  <ManagerReport />
+                </ProtectedRoute>
+              ),
             },
             {
               path: "menu",
-              element: <Menus />,
+              element: (
+                <ProtectedRoute rolesAllowed={["admin", "manager"]}>
+                  <Menus />
+                </ProtectedRoute>
+              ),
             },
-            {
-              path: "output",
-              element: <VipOutputTable />,
-            },
+            // {
+            //   path: "output",
+            //   element: <VipOutputTable />,
+            // },
           ],
         },
         {
@@ -131,16 +194,20 @@ const { user, setUser, token, setToken } = useContext(AuthContext);
           children: [
             {
               path: "reports",
-              element: <AdminReport />,
+              element: (
+                <ProtectedRoute rolesAllowed={["admin"]}>
+                  <AdminReport />
+                </ProtectedRoute>
+              ),
             },
-            {
-              path: "stocks",
-              element: <VipStockTable page="vip" />,
-            },
-            {
-              path: "output",
-              element: <VipOutputTable />,
-            },
+            // {
+            //   path: "stocks",
+            //   element: <VipStockTable page="vip" />,
+            // },
+            // {
+            //   path: "output",
+            //   element: <VipOutputTable />,
+            // },
           ],
         },
       ],

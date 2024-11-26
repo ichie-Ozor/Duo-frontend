@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,78 +11,91 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from '@/components/ui/textarea';
-import { Eye, EyeOff } from 'lucide-react';
-import toast from 'react-hot-toast';
+import { Textarea } from "@/components/ui/textarea";
+import { Eye, EyeOff } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function Menus() {
-      const [showPassword, setShowPassword] = useState(false);
-       const [menuForm, setMenuForm] = useState({});
-       const [staffForm,setStaffForm] = useState({
-        firstname:'',
-        lastname:'',
-        username:'',
-        email:'',
-        role:'staff',
-        status:'active',
-        account_type:'',
-        accessTo:'',
-        password:'123456',
-
-    });
-        const handleMenuChange = ({ target: { name, value } }) => {
-          console.log(name, value);
-          setMenuForm((p) => ({ ...p, [name]: value }));
-        };
+  const [showPassword, setShowPassword] = useState(false);
+  const [menuForm, setMenuForm] = useState({});
+  const [staffForm, setStaffForm] = useState({
+    name: "",
+    username: "",
+    email: "",
+    role: "staff",
+    status: "active",
+    phone: "",
+    account_type: "",
+    accessTo: "",
+    password: "",
+  });
+  const handleMenuChange = ({ target: { name, value } }) => {
+    console.log(name, value);
+    setMenuForm((p) => ({ ...p, [name]: value }));
+  };
   const handleStaffChange = ({ target: { name, value } }) => {
     console.log(name, value);
     setStaffForm((p) => ({ ...p, [name]: value }));
   };
 
-        const handleMenuSubmit = (e) => {
-          e.preventDefault();
-          _post(
-            `insert-menu`,
-            menuForm,
-            (resp) => {
-              console.log(resp);
-              toast.success(resp.message);
-            },
-            (err) => {
-              console.error(err);
-            }
-          );
-          console.log(menuForm)
-        //   if (menuForm.destination) {
-        //     _post(
-        //       `stores?query_type=create_output`,
-        //       { ...menuForm },
-        //       (resp) => {
-        //         alert(resp);
-        //       },
-        //       (err) => {
-        //         alert(err);
-        //       }
-        //     );
-        //   }
-        }; 
-            const handleCreateStaff = (e) => {
-              e.preventDefault();
-              _post(
-                `users/create`,
-                staffForm,
-                (resp) => {
-                    if(resp.success){
-                  toast.success(resp.message);}
-                  else if (resp.email){toast.error(resp.email);}
-                  else{toast.error(resp.message);}
-                },
-                (err) => {
-                  toast.error(err);
-                }
-              );
-             console.log(staffForm)
-            }; 
+  const handleMenuSubmit = (e) => {
+    e.preventDefault();
+    _post(
+      `insert-menu`,
+      menuForm,
+      (resp) => {
+        console.log(resp);
+        toast.success(resp.message);
+      },
+      (err) => {
+        console.error(err);
+      }
+    );
+    console.log(menuForm);
+    //   if (menuForm.destination) {
+    //     _post(
+    //       `stores?query_type=create_output`,
+    //       { ...menuForm },
+    //       (resp) => {
+    //         alert(resp);
+    //       },
+    //       (err) => {
+    //         alert(err);
+    //       }
+    //     );
+    //   }
+  };
+  const handleCreateStaff = (e) => {
+    e.preventDefault();
+    _post(
+      `users/create`,
+      staffForm,
+      (resp) => {
+        if (resp.success) {
+          toast.success(resp.message);
+        } else if (resp.email) {
+          toast.error(resp.email);
+        } else {
+          toast.error(resp.message);
+        }
+      },
+      (err) => {
+        toast.error(err);
+      }
+    );
+    console.log(staffForm);
+    setStaffForm({
+      name: "",
+      username: "",
+      email: "",
+      role: "staff",
+      status: "active",
+      phone: "",
+      account_type: "",
+      accessTo: "",
+      password: "",
+    });
+  };
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
       <div className="grid auto-rows-min gap-4 md:grid-cols-2">
@@ -293,12 +306,25 @@ export default function Menus() {
                   </div>
                 </div>
               </div>
-
               <div className="flex flex-1 flex-row gap-4 p-4 pt-0">
                 <div className=" w-full max items-center gap-1.5 md:grid-cols-2 ">
                   <Label htmlFor="method_of_payment">Access To</Label>
-                  <Select
-                    selected={staffForm.accessTo}
+                  <select
+                    className="flex h-9 w-full items-center justify-between whitespace-nowrap rounded-md bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 border-2 border-[#4267B2] focus:ring-[#4267B2] focus:border-[#4267B2]"
+                    onChange={(e) =>
+                      setStaffForm((p) => ({ ...p, accessTo: e.target.value }))
+                    }
+                    value={staffForm.accessTo}
+                  >
+                    <option>---Staff Access ---</option>
+                    <option value={"store"}>Store</option>
+                    <option value={"vip"}>Vip</option>
+                    <option value={"vibe"}>Vibe</option>
+                    <option value={"kitchen"}>Kitchen</option>
+                    <option value={"manager"}>Manager</option>
+                  </select>
+                  {/* <Select
+                    // selected={staffForm.accessTo}
                     onValueChange={(value) => {
                       setStaffForm((p) => ({ ...p, accessTo: value }));
                     }}
@@ -315,7 +341,7 @@ export default function Menus() {
                       <SelectItem value="vibe">Vibe</SelectItem>
                       <SelectItem value="kitchen">Kitchen</SelectItem>
                     </SelectContent>
-                  </Select>
+                  </Select> */}
 
                   {/* <input
                     className="h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"

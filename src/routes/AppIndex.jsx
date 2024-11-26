@@ -1,13 +1,6 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
-import {
-  Menu,
-
-  Package2,
-
-  Eye,
-  EyeOff
-} from "lucide-react";
+import { Menu, Package2, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,9 +9,7 @@ import {
   // CardHeader,
   // CardTitle,
 } from "@/components/ui/card";
-import {
-  DropdownMenu,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu } from "@/components/ui/dropdown-menu";
 // import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -28,32 +19,32 @@ import { _get, separator } from "../lib/Helper";
 export const description =
   "A products dashboard with a sidebar navigation and a main content area. The dashboard has a header with a search input and a user menu. The sidebar has a logo, navigation links, and a card with a call to action. The main content area shows an empty state with a call to action.";
 export function AppIn() {
-  const [balance,setBalance] = useState(0);
-   const [showBalance, setShowBalance] = useState(false);
+  const [balance, setBalance] = useState(0);
+  const [showBalance, setShowBalance] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false)
-  const closeSheet = () => setIsOpen(false)
+  const [isOpen, setIsOpen] = useState(false);
+  const closeSheet = () => setIsOpen(false);
   const logOut = () => {
     dispatch(logout(navigate));
   };
-   const getBalance = useCallback(() => {
-     _get(
-       `balance?query_type=balance&source_id=${user.account_id}`,
-       (resp) => {
+  const getBalance = useCallback(() => {
+    _get(
+      `balance?query_type=balance&source_id=${user.account_id}`,
+      (resp) => {
         //  console.log(resp.results[0]);
-         setBalance(resp.results[0].balance);
-       },
-       (err) => {
-         console.log(err);
-       }
-     );
-   }, [user]);
-   useEffect(() => {
-     getBalance();
-   }, [showBalance,getBalance]);
+        setBalance(resp.results[0].balance);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }, [user]);
+  useEffect(() => {
+    getBalance();
+  }, [showBalance, getBalance]);
 
   const [activeDropdown, setActiveDropdown] = useState(null);
   return (
@@ -70,9 +61,7 @@ export function AppIn() {
             </Button> */}
           </div>
           <div className="flex-1 ">
-            <nav className="grid items-start px-2 text-sm font-medium lg:px-4 gap-2">
-             
-            </nav>
+            <nav className="grid items-start px-2 text-sm font-medium lg:px-4 gap-2"></nav>
           </div>
           <div className="mt-auto p-0 sticky bottom-0 ">
             <Card
@@ -80,7 +69,7 @@ export function AppIn() {
               className="bg-yellow-400 border-none"
             >
               <CardContent className="p-2 pt-0 md:p-4 ">
-                <Button size="sm" className="w-full" >
+                <Button size="sm" className="w-full">
                   Logout
                 </Button>
               </CardContent>
@@ -241,7 +230,7 @@ export function AppIn() {
   );
 }
 
-import { AppSidebar } from "@/components/app-sidebar"
+import { AppSidebar } from "@/components/app-sidebar";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -249,18 +238,19 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { Separator } from "@/components/ui/separator"
+} from "@/components/ui/breadcrumb";
+import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 import { AuthContext } from "@/app/auth/Context";
 
 export default function AppIndex() {
-  const location = useLocation()
+  const location = useLocation();
   const { user, setUser, token, setToken } = useContext(AuthContext);
+  console.log(user, token, "App index");
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -272,9 +262,7 @@ export default function AppIndex() {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="dashboard">
-                    Store 
-                  </BreadcrumbLink>
+                  <BreadcrumbLink href="dashboard">Store</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>
@@ -283,13 +271,11 @@ export default function AppIndex() {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          <h3 className="mr-6 pr-5 text-2xl">
-          {user.name}
-          </h3>
+          <h3 className="mr-6 pr-5 text-2xl">{user.name}</h3>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
           <Outlet />
-         </div>
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );
