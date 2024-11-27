@@ -284,7 +284,7 @@ export default function AppIndex() {
             </Breadcrumb>
           </div>
           <h3 className="mr-6 pr-5 text-2xl">
-          {user.name}
+          {user.username}
           </h3>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">

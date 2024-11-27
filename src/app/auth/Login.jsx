@@ -41,6 +41,7 @@ const { user, setUser, token, setToken } = useContext(AuthContext);
        console.log(data);
        if (data.success) {
          setUser(data.user);
+         localStorage.setItem("@@token", data.token);
          setToken(data.token);
         //  console.log(data);
          history("/in-out" );

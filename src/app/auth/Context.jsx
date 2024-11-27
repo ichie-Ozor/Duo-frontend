@@ -4,7 +4,7 @@ import React, { createContext, useState, useEffect } from "react";
 const AuthContext = createContext();
 
 const Provider = ({ children }) => {
-  const [user, setUser] = useState({name:'Frank Edward'});
+  const [user, setUser] = useState({});
   const [token,setToken] = useState("")
   const [balance,setBalance] = useState(0)
     // useEffect(() => {
