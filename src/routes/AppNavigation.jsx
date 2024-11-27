@@ -21,15 +21,40 @@ import Menus from "@/app/Manager/Menus";
 import Login from "@/app/auth/Login";
 import ManagerReport from "@/app/Manager/Reports";
 import { AuthContext } from "@/app/auth/Context";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import AdminReport from "@/app/admin/Reports";
+import Transfer from "@/app/Kitchen/Transfer";
+import { server_url } from "@/lib/Helper";
 
 export default function AppNavigation() {
   // const isAuthenticated = useSelector((state) => state.auth.authenticated);
   const { user, setUser, token, setToken } = useContext(AuthContext);
+  let a = localStorage.getItem("@@token");
+  setToken(localStorage.getItem("@@token"));
 
-  console.log(user, "navigation ");
+  useEffect(() => {
+    if (token !== "") {
+      fetch(`${server_url}/verify-token`, {
+        method: "GET",
+        headers: {
+          authorization: token,
+        },
+      })
+        .then((resp) => resp.json())
+        .then((data) => {
+          if (data.success) {
+            setUser(data.user);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
 
+      // Fetch user data from API here
+      // setUser(response.data);
+    }
+  }, [token]);
+  console.log(user);
   let Pages = useRoutes([
     {
       path: "/login",

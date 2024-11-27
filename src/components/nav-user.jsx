@@ -43,7 +43,7 @@ export function NavUser({
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              onClick={() => {history("/login", replace)}}
+              onClick={() => {history("/login", replace); localStorage.removeItem('@@token')}}
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <LogOut />

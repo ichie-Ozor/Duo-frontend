@@ -132,7 +132,7 @@ const data = {
         // },
         {
           title: "Transfer",
-          url: "kitchen/sales",
+          url: "kitchen/transfer",
         },
         {
           title: "Stock",

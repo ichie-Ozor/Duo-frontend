@@ -271,7 +271,7 @@ export default function AppIndex() {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          <h3 className="mr-6 pr-5 text-2xl">{user.name}</h3>
+          <h3 className="mr-6 pr-5 text-2xl">{user.username}</h3>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
           <Outlet />
