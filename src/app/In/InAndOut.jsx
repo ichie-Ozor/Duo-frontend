@@ -21,7 +21,7 @@ import toast from "react-hot-toast";
 export default function InAndOut() {
   const { user } = useContext(AuthContext);
   const [inForm, setInForm] = useState({});
-  const [outForm, setOutForm] = useState({ name_of_giver: user.name });
+  const [outForm, setOutForm] = useState({});
   const [stocks, setStocks] = useState([]);
   const [qty, setQty] = useState(0);
   const getStocks = () => {
@@ -39,15 +39,16 @@ export default function InAndOut() {
   useEffect(() => {
     getStocks();
   }, []);
+
   const handleInChange = ({ target: { name, value } }) => {
     console.log(name, value);
     setInForm((p) => ({ ...p, [name]: value }));
   };
   const handleOutChange = ({ target: { name, value } }) => {
-    console.log(name, value);
+    console.log(name, outForm, "Ouut form", value);
     setOutForm((p) => ({ ...p, [name]: value }));
   };
-  console.log(qty);
+
   const handleInSubmit = (e) => {
     e.preventDefault();
 
@@ -82,20 +83,31 @@ export default function InAndOut() {
   const handleOutSubmit = (e) => {
     console.log(outForm, "going out");
     e.preventDefault();
+    const saveOutForm = {
+      name_of_giver: user.name,
+      item_name: outForm.item_name,
+      item_cost: outForm.item_cost,
+      destination: outForm.destination,
+      out_qty: outForm.out_qty,
+      name_of_collector: outForm.name_of_collector,
+    };
     if (outForm.destination) {
       _post(
         `stores?query_type=create_output`,
-        { ...outForm },
+        // { ...outForm },
+        saveOutForm,
         (resp) => {
           if (resp.success) {
             toast.success("Item Collected Successfully");
-            setOutForm({
+            setOutForm((p) => ({
+              ...p,
+              name_of_giver: "",
               item_name: "",
               item_cost: "",
               destination: "",
               out_qty: "",
-              collectors_name: "",
-            });
+              name_of_collector: "",
+            }));
           }
         },
         (err) => {
@@ -104,6 +116,7 @@ export default function InAndOut() {
       );
     }
   };
+  console.log();
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
       <div className="grid auto-rows-min gap-4 md:grid-cols-2">
@@ -347,13 +360,13 @@ export default function InAndOut() {
               </div>
               <div className="flex flex-1 flex-row gap-4 p-4 pt-0">
                 <div className=" w-full max items-center gap-1.5 md:grid-cols-2">
-                  <Label htmlFor="collectors_name">Collectors Name</Label>
+                  <Label htmlFor="name_of_collector">Collectors Name</Label>
                   <Input
                     onChange={handleOutChange}
-                    name="collectors_name"
+                    name="name_of_collector"
                     type="text"
-                    id="collectors_name"
-                    value={outForm.collectors_name}
+                    id="name_of_collector"
+                    value={outForm.name_of_collector}
                     required
                     placeholder="Collectors Name"
                   />

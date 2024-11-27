@@ -14,13 +14,13 @@ import moment from "moment";
 import { _get } from "@/lib/Helper";
 import { useCallback, useEffect, useState } from "react";
 
-
-export function VipStockTable({page}) {
+export function VipStockTable({ page }) {
   const [stocks, setStocks] = useState([]);
   const getStocks = useCallback(() => {
     _get(
       `get/${page}`,
       (resp) => {
+        console.log(resp, "vip stock");
         if (resp.success) {
           setStocks(resp.data);
           // alert(resp.data);
@@ -28,10 +28,12 @@ export function VipStockTable({page}) {
       },
       (err) => console.error(err.message)
     );
-  },[page]);
+  }, [page]);
+
   useEffect(() => {
     getStocks();
   }, [getStocks]);
+
   return (
     <Card className="pt-3">
       <CardContent>
@@ -41,6 +43,7 @@ export function VipStockTable({page}) {
             <TableRow>
               <TableHead className="w-[100px] text-">Invoice</TableHead>
               <TableHead className="text-">Item Name</TableHead>
+              <TableHead className="text-">Name of Collector</TableHead>
               <TableHead className="text-">Date</TableHead>
               <TableHead className="text-">Quantity</TableHead>
               <TableHead className="text-right">Price</TableHead>
@@ -50,19 +53,16 @@ export function VipStockTable({page}) {
           <TableBody>
             {stocks.map((stock, idx) => (
               <TableRow key={stock.invoice}>
-                <TableCell className="font-medium">{idx +1}</TableCell>
+                <TableCell className="font-medium">{idx + 1}</TableCell>
                 <TableCell>{stock.vip_item_name}</TableCell>
+                <TableCell>{stock.vip_user_name}</TableCell>
                 <TableCell>{moment().format("YYYY-MM-DD")}</TableCell>
                 <TableCell>{stock.vip_item_qty}</TableCell>
                 <TableCell className="text-right">
                   {stock.vip_item_price}
                 </TableCell>
                 <TableCell className="text-right">
-                  <Badge
-                    variant={
-                      stock.in_qty < 1 ? "destructive" : ""
-                    }
-                  >
+                  <Badge variant={stock.in_qty < 1 ? "destructive" : ""}>
                     {stock.in_qty < 1 ? "Critical" : "Normal"}
                   </Badge>
                 </TableCell>

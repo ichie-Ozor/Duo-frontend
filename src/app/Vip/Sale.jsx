@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { _get, _post } from "@/lib/Helper";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -12,19 +12,20 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import moment from "moment";
+import { AuthContext } from "../auth/Context";
 import toast from "react-hot-toast";
 
 export default function VipSales({ page }) {
   const [outForm, setOutForm] = useState({ out_qty: 1 });
+  const { user } = useContext(AuthContext);
   const [stocks, setStocks] = useState([]);
   const [invoice, setInvoice] = useState([]);
   const [showInvoice, setShowInvoice] = useState(false);
   const [username, setUsername] = useState("");
 
   useEffect(() => {
-    const loggedUser = "Frank Edward";
-    setUsername(loggedUser);
-  }, []);
+    setUsername(user.name);
+  }, [user.name]);
 
   const handleOutChange = ({ target: { name, value } }) => {
     setOutForm((p) => ({ ...p, [name]: value }));
@@ -70,6 +71,7 @@ export default function VipSales({ page }) {
   };
 
   const printInvoice = () => {
+    setShowInvoice(false);
     const printContent = document.getElementById("invoiceSection").innerHTML;
     const originalContent = document.body.innerHTML;
     document.body.innerHTML = printContent;

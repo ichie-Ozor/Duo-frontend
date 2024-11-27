@@ -21,6 +21,7 @@ export default function OutputTable() {
       `get/outstocks`,
       (resp) => {
         if (resp.success) {
+          console.log(resp, "response");
           setStocks(resp.data);
           //   alert(resp.data);
         }
@@ -62,7 +63,7 @@ export default function OutputTable() {
                     <TableRow key={invoice.idx}>
                       <TableCell className="font-medium">{idx + 1}</TableCell>
                       <TableCell>{invoice.item_name}</TableCell>
-                      <TableCell>{moment().format("YYYY-MM-DD")}</TableCell>
+                      <TableCell>{invoice.date}</TableCell>
                       <TableCell>{invoice.out_qty}</TableCell>
                       <TableCell className="text-right">
                         {invoice.name_of_collector}
@@ -101,7 +102,7 @@ export default function OutputTable() {
                     <TableRow key={invoice.invoice}>
                       <TableCell className="font-medium">{idx + 1}</TableCell>
                       <TableCell>{invoice.item_name}</TableCell>
-                      <TableCell>{moment().format("YYYY-MM-DD")}</TableCell>
+                      <TableCell>{invoice.date}</TableCell>
                       <TableCell>{invoice.out_qty}</TableCell>
                       <TableCell className="text-right">
                         {invoice.name_of_collector}
@@ -140,7 +141,7 @@ export default function OutputTable() {
                     <TableRow key={invoice.invoice}>
                       <TableCell className="font-medium">{idx + 1}</TableCell>
                       <TableCell>{invoice.item_name}</TableCell>
-                      <TableCell>{moment().format("YYYY-MM-DD")}</TableCell>
+                      <TableCell>{invoice.date}</TableCell>
                       <TableCell>{invoice.out_qty}</TableCell>
                       <TableCell className="text-right">
                         {invoice.name_of_collector}

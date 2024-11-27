@@ -16,12 +16,12 @@ export default function ProtectedRoute({
   }
 
   if (rolesDenied && rolesDenied.includes(user.accessTo)) {
-    toast.error("you are not grated assess to that page");
+    toast.error("you are not granted assess to that page");
     return <Navigate to={"/dashboard"} replace />;
   }
 
   if (rolesAllowed && !rolesAllowed.includes(user.accessTo)) {
-    toast.error("you are not grated assess to that page");
+    toast.error("you are not granted assess to that page");
     return <Navigate to={"/dashboard"} replace />;
   }
   return children;
