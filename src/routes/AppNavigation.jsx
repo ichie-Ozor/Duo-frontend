@@ -20,14 +20,18 @@ import Menus from "@/app/Manager/Menus";
 import Login from "@/app/auth/Login";
 import ManagerReport from "@/app/Manager/Reports";
 import { AuthContext } from "@/app/auth/Context";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import AdminReport from "@/app/admin/Reports";
 import Transfer from "@/app/Kitchen/Transfer";
 
 export default function AppNavigation() {
   // const isAuthenticated = useSelector((state) => state.auth.authenticated);
 const { user, setUser, token, setToken } = useContext(AuthContext);
- 
+//  useEffect((
+
+//   )=> {
+
+//   }, [])
   let Pages = useRoutes([
     {
       path: "/login",
