@@ -108,6 +108,7 @@ export default function InAndOut() {
               out_qty: "",
               name_of_collector: "",
             }));
+            window.location.reload();
           }
         },
         (err) => {

@@ -165,7 +165,7 @@ export default function AppNavigation() {
               path: "sales",
               element: (
                 <ProtectedRoute rolesAllowed={["kitchen"]}>
-                  <VipSales page="Kitchen" />
+                  <Transfer page="Kitchen" />
                 </ProtectedRoute>
               ),
             },
@@ -173,7 +173,7 @@ export default function AppNavigation() {
               path: "stocks",
               element: (
                 <ProtectedRoute rolesAllowed={["admin", "manager", "kitchen"]}>
-                  <VipStockTable page="kitchen" />
+                  <Transfer page="kitchen" />
                 </ProtectedRoute>
               ),
             },
@@ -181,7 +181,7 @@ export default function AppNavigation() {
               path: "output",
               element: (
                 <ProtectedRoute rolesAllowed={["admin", "manager", "kitchen"]}>
-                  <VipOutputTable page="kitchen" />
+                  <Transfer page="kitchen" />
                 </ProtectedRoute>
               ),
             },

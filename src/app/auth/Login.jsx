@@ -62,29 +62,7 @@ export default function Login() {
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen w-full">
-      {/* <div
-        className="lg:w-3/6 bg-cover bg-center hidden lg:block"
-        style={{
-          backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) ),url(${cover})`,
-        }}
-        role="img"
-        aria-label="Background image of a desk with a laptop and coffee"
-      >
-        <div className="title-wrap flex flex-col items-center">
-          <h3 className="bits-head">BitCoops</h3>
-          <p className="mb-4">Automated cooperative society system</p>
-          <input
-            type="submit"
-            onClick={() => history("/auth/sign-up")}
-            className="goto"
-            name=""
-            value={`Goto Signup`}
-          />
-        </div>
-      </div> */}
       <div className="flex-1 flex items-center justify-center p-10 bg-black text-white">
-        {/* <Card> */}
-
         <div className="w-full max-w-md space-y-8 animate__animated animate__bounceIn">
           <div className="space-y-2 text-center">
             <h1 className="text-4xl font-bold text-white">Log In </h1>
