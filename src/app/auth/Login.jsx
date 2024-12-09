@@ -43,6 +43,7 @@ export default function Login() {
         if (data.success) {
           toast.success(" You are successfully logedin");
           setUser(data.user);
+          localStorage.setItem("@token", data.token);
           setToken(data.token);
           history("/dashboard");
           // history("/in-out");

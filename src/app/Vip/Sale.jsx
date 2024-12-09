@@ -16,9 +16,9 @@ import { AuthContext } from "../auth/Context";
 import toast from "react-hot-toast";
 
 export default function VipSales({ page }) {
-  const [outForm, setOutForm] = useState({ out_qty: 1 });
   const { user } = useContext(AuthContext);
   const [stocks, setStocks] = useState([]);
+  const [outForm, setOutForm] = useState({ out_qty: 1 });
   const [invoice, setInvoice] = useState([]);
   const [showInvoice, setShowInvoice] = useState(false);
   const [username, setUsername] = useState("");
@@ -36,6 +36,7 @@ export default function VipSales({ page }) {
       "get/menu",
       (resp) => {
         if (resp.success) {
+          console.log(resp, page, "sales");
           setStocks(resp.data);
         }
       },
@@ -49,9 +50,15 @@ export default function VipSales({ page }) {
 
   const handleOutSubmit = (e) => {
     e.preventDefault();
+    const outFormData = {
+      ...outForm,
+      staff: user.username,
+      date: moment().format("DD-MM-YYYY"),
+    };
+    console.log(outForm, "going to backend", outFormData, user);
     _post(
       `insert-${page ? "vibe" : "vip"}?query_type=create_output`,
-      { ...outForm },
+      outFormData,
       (resp) => {
         // toast.success(resp.message);
         setInvoice([...invoice, outForm]);

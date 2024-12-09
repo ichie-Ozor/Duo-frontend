@@ -8,19 +8,23 @@ export default function ProtectedRoute({
   rolesAllowed,
   rolesDenied,
 }) {
-  const { user } = useContext(AuthContext);
-  console.log(user, "protcted route");
+  const { user, setToken, token } = useContext(AuthContext);
+  setToken(localStorage.getItem("@@token"));
+  let d = localStorage.getItem("@token");
+  console.log(user, "protcted route", d, token);
 
-  if (!user) {
+  if (!user && !d) {
     return <Navigate to={"/login"} replace />;
   }
-
-  if (rolesDenied && rolesDenied.includes(user.accessTo)) {
+  // if (token) {
+  //   window.location();
+  // }
+  if (rolesDenied && rolesDenied.includes(user?.accessTo)) {
     toast.error("you are not granted assess to that page");
     return <Navigate to={"/dashboard"} replace />;
   }
 
-  if (rolesAllowed && !rolesAllowed.includes(user.accessTo)) {
+  if (rolesAllowed && !rolesAllowed.includes(user?.accessTo)) {
     toast.error("you are not granted assess to that page");
     return <Navigate to={"/dashboard"} replace />;
   }

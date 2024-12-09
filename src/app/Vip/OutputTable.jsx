@@ -9,13 +9,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { AuthContext } from "../auth/Context";
 // import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { _get } from "@/lib/Helper";
 import moment from "moment";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useContext } from "react";
 
 export default function VipOutputTable({ page }) {
   const [stocks, setStocks] = useState([]);
+  const { user } = useContext(AuthContext);
   const getStocks = useCallback(() => {
     _get(
       `get/out-${page || "vip"}`,
@@ -53,7 +55,7 @@ export default function VipOutputTable({ page }) {
               <TableRow key={invoice.idx}>
                 <TableCell className="font-medium">{idx + 1}</TableCell>
                 <TableCell>{invoice.menu}</TableCell>
-                <TableCell>{moment().format("YYYY-MM-DD")}</TableCell>
+                <TableCell>{invoice.date}</TableCell>
                 <TableCell>{invoice.out_qty}</TableCell>
                 <TableCell className="text-right">
                   {page === "vip"
@@ -63,9 +65,7 @@ export default function VipOutputTable({ page }) {
                 <TableCell className="text-right">
                   {invoice.payment_method}
                 </TableCell>
-                <TableCell className="text-right">
-                  {invoice.name_of_giver}
-                </TableCell>
+                <TableCell className="text-right">{invoice.staff}</TableCell>
               </TableRow>
             ))}
           </TableBody>

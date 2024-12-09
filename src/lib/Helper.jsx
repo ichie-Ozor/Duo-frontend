@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 
- export const server_url = "http://localhost:44405";
+// export const server_url = "http://localhost:44405";
+export const server_url = "http://server.africanfoodstuffnz.com/duo";
 
 //
 
