@@ -3,12 +3,13 @@ import {
   Outlet,
   useLocation,
   useNavigate,
-  useNavigation,
+  // useNavigation,
   useRoutes,
 } from "react-router-dom";
 // import { Outlet } from "react-router-dom";
 import AppIndex from "./AppIndex";
-import NotFound from "./NotFound";
+// import NotFound from "./NotFound";
+import NotFound from "./Notfound";
 // import { useDispatch, useSelector } from "react-redux";
 import Dashboard from "@/app/dashboard/page";
 import { StockTable } from "@/app/Stocks/StockTable";
@@ -25,12 +26,12 @@ import { AuthContext } from "@/app/auth/Context";
 import { useContext, useEffect } from "react";
 import AdminReport from "@/app/admin/Reports";
 import Transfer from "@/app/Kitchen/Transfer";
-import { server_url } from "@/lib/Helper";
+// import { server_url } from "@/lib/Helper";
 // import { Navigation,  } from "lucide-react";
 
 export default function AppNavigation() {
   // const isAuthenticated = useSelector((state) => state.auth.authenticated);
-  const { user, setUser, token, setToken } = useContext(AuthContext);
+  const { user, token } = useContext(AuthContext);
   // let a = localStorage.getItem("@@token");
   // setToken(localStorage.getItem("@@token"));
 
