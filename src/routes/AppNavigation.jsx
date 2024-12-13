@@ -177,9 +177,9 @@ export default function AppNavigation() {
             {
               path: "transfer",
               element: (
-                <ProtectedRoute rolesAllowed={["kitchen"]}>
+                // <ProtectedRoute rolesAllowed={["kitchen"]}>
                   <Transfer page="Kitchen" />
-                </ProtectedRoute>
+                // </ProtectedRoute>
               ),
             },
             {

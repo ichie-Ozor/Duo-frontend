@@ -97,7 +97,7 @@ export default function Transfer({ page }) {
                 <div className="w-full max items-center gap-1.5 md:grid-cols-2">
                   <Label htmlFor="item_name">Select Menu</Label>
                   <Select
-                    value={outForm.menu}
+                    // value={outForm.menu}
                     onValueChange={(value) => {
                       const { menu_name, menu_price } = JSON.parse(value);
                       setOutForm((prev) => ({
@@ -117,12 +117,13 @@ export default function Transfer({ page }) {
                       {stocks.map((stock) => (
                         <SelectItem
                           key={stock.id}
+                          // value={stock.menu_name}
                           value={JSON.stringify({
                             menu_name: stock.menu_name,
                             menu_price: stock.menu_price,
                           })}
                         >
-                          {`${stock.menu_name}`}
+                          {stock.menu_name}
                         </SelectItem>
                       ))}
                     </SelectContent>
