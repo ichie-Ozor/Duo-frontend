@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { AuthContext } from "@/app/auth/Context";
 import toast from "react-hot-toast";

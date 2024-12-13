@@ -12,25 +12,25 @@ import {
 import { AuthContext } from "../auth/Context";
 // import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { _get } from "@/lib/Helper";
-import moment from "moment";
+// import moment from "moment";
 import { useCallback, useEffect, useState, useContext } from "react";
 
-export default function VipOutputTable({ page }) {
+export default function ReceptionOutput() {
   const [stocks, setStocks] = useState([]);
   const { user } = useContext(AuthContext);
   const getStocks = useCallback(() => {
     _get(
-      `get/out-${page || "vip"}`,
+      `get/out-reception`,
       (resp) => {
         if (resp.success) {
-          console.log(resp.data, "stock here");
+          console.log(resp.data, "reception");
           setStocks(resp.data);
           //   alert(resp.data);
         }
       },
       (err) => console.error(err.message)
     );
-  }, [page]);
+  }, []);
   useEffect(() => {
     getStocks();
   }, [getStocks]);
@@ -55,18 +55,18 @@ export default function VipOutputTable({ page }) {
             {stocks.map((invoice, idx) => (
               <TableRow key={invoice.idx}>
                 <TableCell className="font-medium">{idx + 1}</TableCell>
-                <TableCell>{invoice.menu}</TableCell>
+                <TableCell>{invoice.reception_item_name}</TableCell>
                 <TableCell>{invoice.date}</TableCell>
-                <TableCell>{invoice.out_qty}</TableCell>
+                <TableCell>{invoice.reception_item_qty}</TableCell>
                 <TableCell className="text-right">
-                  {page === "vip"
-                    ? invoice.vip_discount || 0
-                    : invoice.vibe_discount || 0}
+                  {invoice.reception_discount || 0}
                 </TableCell>
                 <TableCell className="text-right">
                   {invoice.payment_method}
                 </TableCell>
-                <TableCell className="text-right">{invoice.staff}</TableCell>
+                <TableCell className="text-right">
+                  {invoice.reception_user_name}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

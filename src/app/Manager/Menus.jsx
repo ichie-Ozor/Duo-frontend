@@ -321,6 +321,7 @@ export default function Menus() {
                     <option value={"vip"}>Vip</option>
                     <option value={"vibe"}>Vibe</option>
                     <option value={"kitchen"}>Kitchen</option>
+                    <option value={"reception"}>Reception</option>
                     <option value={"manager"}>Manager</option>
                   </select>
                   {/* <Select

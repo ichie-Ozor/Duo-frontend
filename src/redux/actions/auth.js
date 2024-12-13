@@ -8,7 +8,7 @@ import {
 } from "../types";
 import { _get, server_url } from "../../lib/Helper";
 
-export function login({ username, password, history }, success, error) {
+export function login({ username, password }, success, error) {
   return (dispatch) => {
     dispatch({ type: LOADING_LOGIN });
     fetch(`${server_url}/users/login`, {
@@ -22,28 +22,28 @@ export function login({ username, password, history }, success, error) {
       .then((data) => {
         console.log(data);
         if (data.success) {
-          const { token ,user } = data;
+          const { token, user } = data;
           dispatch({ type: LOADING_APP });
           if (token) {
             localStorage.setItem("@@token", token);
-              if (user.role === "user") {
-                dispatch({
-                  type: AUTH,
-                  payload: {
-                    user,
-                    // tax_account: tax_accounts ? tax_accounts[0] : [],
-                  },
-                });
-                success(data);
-              } else {
-                dispatch({
-                  type: AUTH,
-                  payload: {
-                    user,
-                  },
-                });
-                success(data);
-              }
+            if (user.role === "user") {
+              dispatch({
+                type: AUTH,
+                payload: {
+                  user,
+                  // tax_account: tax_accounts ? tax_accounts[0] : [],
+                },
+              });
+              success(data);
+            } else {
+              dispatch({
+                type: AUTH,
+                payload: {
+                  user,
+                },
+              });
+              success(data);
+            }
           }
 
           // getUserProfile(token)

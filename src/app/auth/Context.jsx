@@ -1,5 +1,5 @@
 // MyContext.js
-import React, { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import { server_url } from "@/lib/Helper";
 
 const AuthContext = createContext();

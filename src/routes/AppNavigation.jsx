@@ -26,6 +26,9 @@ import { AuthContext } from "@/app/auth/Context";
 import { useContext, useEffect } from "react";
 import AdminReport from "@/app/admin/Reports";
 import Transfer from "@/app/Kitchen/Transfer";
+import ReceptionSale from "@/app/reception/receptionSale";
+import { ReceptionStock } from "@/app/reception/receptionStock";
+import ReceptionOutput from "@/app/reception/receptionOuput";
 // import { server_url } from "@/lib/Helper";
 // import { Navigation,  } from "lucide-react";
 
@@ -192,6 +195,40 @@ export default function AppNavigation() {
               element: (
                 <ProtectedRoute rolesAllowed={["admin", "manager", "kitchen"]}>
                   <Transfer page="kitchen" />
+                </ProtectedRoute>
+              ),
+            },
+          ],
+        },
+        {
+          path: "reception",
+          element: <Outlet />,
+          children: [
+            {
+              path: "sales",
+              element: (
+                <ProtectedRoute rolesAllowed={["reception"]}>
+                  <ReceptionSale />
+                </ProtectedRoute>
+              ),
+            },
+            {
+              path: "stocks",
+              element: (
+                <ProtectedRoute
+                  rolesAllowed={["admin", "manager", "reception"]}
+                >
+                  <ReceptionStock />
+                </ProtectedRoute>
+              ),
+            },
+            {
+              path: "output",
+              element: (
+                <ProtectedRoute
+                  rolesAllowed={["admin", "manager", "reception"]}
+                >
+                  <ReceptionOutput />
                 </ProtectedRoute>
               ),
             },
