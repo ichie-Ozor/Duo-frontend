@@ -13,10 +13,17 @@
 }
 .duo-sidebar div:first-child{
   background-color: black;
+    background-color: black;
   color: white;
 }
 .duo-sidebar li a{
   color: rgb(250, 239, 219);
+}
+.bg-sidebar {
+  color: white;
+}
+li a{
+  color: white;
 }
 
 @keyframes logo-spin {
