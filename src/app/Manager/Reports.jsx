@@ -71,7 +71,7 @@ export default function ManagerReport() {
   const calculateRowTotal = (id) => {
     const row = reportInput.find((entry) => entry.id === id);
     if (!row) return 0;
-    return ["pos", "transfer", "cash", "ceo", "damage", "room"].reduce(
+    return ["pos", "cash", "ceo", "damage", "room"].reduce(
       (acc, field) => acc + row[field],
       0
     );
@@ -140,6 +140,7 @@ export default function ManagerReport() {
         );
       }
     );
+    // window.print();
     setReportInput(
       stocks.map((stock) => ({
         id: stock.id,
@@ -170,7 +171,7 @@ export default function ManagerReport() {
                 Staff Name
               </TableHead>
               <TableHead className="text-center">Pos</TableHead>
-              <TableHead className="text-center">Transfer</TableHead>
+              {/* <TableHead className="text-center">Transfer</TableHead> */}
               <TableHead className="text-center">Cash</TableHead>
               <TableHead className="text-center">CEO</TableHead>
               <TableHead className="text-center">Damage</TableHead>
@@ -187,22 +188,20 @@ export default function ManagerReport() {
                 <TableCell className="font-bold text-[18px]">
                   {stock.name}
                 </TableCell>
-                {["pos", "transfer", "cash", "ceo", "damage", "room"].map(
-                  (field) => (
-                    <TableCell key={field} className="text-right">
-                      <Input
-                        type="number"
-                        name={field}
-                        value={
-                          reportInput.find((entry) => entry.id === stock.id)?.[
-                            field
-                          ] || ""
-                        }
-                        onChange={(e) => onInputChange(e, stock.id)}
-                      />
-                    </TableCell>
-                  )
-                )}
+                {["pos", "cash", "ceo", "damage", "room"].map((field) => (
+                  <TableCell key={field} className="text-right">
+                    <Input
+                      type="number"
+                      name={field}
+                      value={
+                        reportInput.find((entry) => entry.id === stock.id)?.[
+                          field
+                        ] || ""
+                      }
+                      onChange={(e) => onInputChange(e, stock.id)}
+                    />
+                  </TableCell>
+                ))}
                 <TableCell className="text-right">
                   {formatNumber1(calculateRowTotal(stock.id))}
                 </TableCell>
@@ -235,13 +234,11 @@ export default function ManagerReport() {
               <TableCell colSpan={2} className="font-semibold text-right">
                 Total
               </TableCell>
-              {["pos", "transfer", "cash", "ceo", "damage", "room"].map(
-                (field) => (
-                  <TableCell key={field} className="text-center font-semibold">
-                    {formatNumber1(calculateColumnTotal(field))}
-                  </TableCell>
-                )
-              )}
+              {["pos", "cash", "ceo", "damage", "room"].map((field) => (
+                <TableCell key={field} className="text-center font-semibold">
+                  {formatNumber1(calculateColumnTotal(field))}
+                </TableCell>
+              ))}
               <TableCell className="text-right font-semibold">
                 {formatNumber1(grandTotal)}
               </TableCell>

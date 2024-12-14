@@ -37,7 +37,7 @@ export default function AdminReport() {
 
   const calculateRowTotal = (row) => {
     if (!row) return 0;
-    return ["pos", "transfer", "cash", "ceo", "damage", "room"].reduce(
+    return ["pos", "cash", "ceo", "damage", "room"].reduce(
       (acc, field) => acc + Number(row[field] || 0),
       0
     );
@@ -63,7 +63,7 @@ export default function AdminReport() {
               <TableHead className="text-">Staff Name</TableHead>
               <TableHead className="text-center">Role</TableHead>
               <TableHead className="text-center">Pos</TableHead>
-              <TableHead className="text-center">Transfer</TableHead>
+              {/* <TableHead className="text-center">Transfer</TableHead> */}
               <TableHead className="text-center">Cash</TableHead>
               <TableHead className="text-center">Ceo</TableHead>
               <TableHead className="text-center">Damage</TableHead>
@@ -78,9 +78,9 @@ export default function AdminReport() {
                 <TableCell>{invoice.name}</TableCell>
                 <TableCell className="text-center">Staff</TableCell>
                 <TableCell className="text-center">{invoice.pos}</TableCell>
-                <TableCell className="text-center">
+                {/* <TableCell className="text-center">
                   {invoice.transfer}
-                </TableCell>
+                </TableCell> */}
                 <TableCell className="text-center">{invoice.cash}</TableCell>
                 <TableCell className="text-center">{invoice.ceo}</TableCell>
                 <TableCell className="text-center">{invoice.damage}</TableCell>
@@ -99,9 +99,9 @@ export default function AdminReport() {
               <TableCell className="font-bold text-center">
                 {formatNumber1(calculateColumnTotal("pos"))}
               </TableCell>
-              <TableCell className="font-bold text-center">
+              {/* <TableCell className="font-bold text-center">
                 {formatNumber1(calculateColumnTotal("transfer"))}
-              </TableCell>
+              </TableCell> */}
               <TableCell className="font-bold text-center">
                 {formatNumber1(calculateColumnTotal("cash"))}
               </TableCell>
