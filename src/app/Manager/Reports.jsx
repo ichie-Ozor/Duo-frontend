@@ -17,6 +17,7 @@ import toast from "react-hot-toast";
 
 export default function ManagerReport() {
   const [stocks, setStocks] = useState([]);
+  // const [amt, setAmt] = useState(0);
   const [reportInput, setReportInput] = useState([]);
   const getSaleStaff = () => {
     _get(
@@ -34,6 +35,7 @@ export default function ManagerReport() {
               ceo: 0,
               damage: 0,
               room: 0,
+              amt: 0,
             }))
           );
         }
@@ -75,20 +77,55 @@ export default function ManagerReport() {
     );
   };
 
+  const calculateEachRowTotal = (id) => {
+    const row = reportInput.find((entry) => entry.id === id);
+    // const t = ["pos", "transfer", "cash", "ceo", "damage", "room"].reduce(
+    //   (acc, field) => acc + row[field],
+    //   0
+    // );
+    if (!row) return 0;
+    const t = calculateRowTotal(id);
+    return t - (row.amt || 0);
+  };
+
   const grandTotal = reportInput.reduce(
     (acc, entry) => acc + calculateRowTotal(entry.id),
     0
   );
 
+  // const grandAmtTotal = reportInput.reduce(
+  //   (acc, entry) => acc + calculateEachRowTotal(entry.id),
+  //   0
+  // );
+
   const calculateColumnTotal = (field) => {
     return reportInput.reduce((acc, entry) => acc + entry[field], 0);
   };
 
+  const calculateColumnAmtTotal = () => {
+    // return ["amt", "Oweing"].reduce((acc, entry) => acc + entry[field], 0);
+    return reportInput.reduce(
+      (acc, entry) => acc + calculateEachRowTotal(entry.id),
+      0
+    );
+  };
+
   const onSubmitHandler = () => {
-    const updatedReportInput = reportInput.map((entry) => ({
-      ...entry,
-      name: stocks.find((s) => s.id === entry.id)?.name,
-    }));
+    // const updatedReportInput = reportInput.map((entry) => ({
+    //   ...entry,
+    //   name: stocks.find((s) => s.id === entry.id)?.name,
+    // }));
+    const updatedReportInput = reportInput.map((entry) => {
+      const stock = stocks.find((s) => s.id === entry.id);
+      const total = calculateRowTotal(entry.id);
+      const oweing = total - entry.amt;
+      return {
+        ...entry,
+        name: stock?.name,
+        total,
+        oweing,
+      };
+    });
     console.log(updatedReportInput, "stock", reportInput);
     _post(
       "manager/report",
@@ -112,6 +149,7 @@ export default function ManagerReport() {
         ceo: 0,
         damage: 0,
         room: 0,
+        amt: 0,
       }))
     );
   };
@@ -138,6 +176,8 @@ export default function ManagerReport() {
               <TableHead className="text-center">Damage</TableHead>
               <TableHead className="text-center">Room</TableHead>
               <TableHead className="text-center">Total</TableHead>
+              <TableHead className="text-center">Amount Paid</TableHead>
+              <TableHead className="text-center">Oweing</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -166,8 +206,29 @@ export default function ManagerReport() {
                 <TableCell className="text-right">
                   {formatNumber1(calculateRowTotal(stock.id))}
                 </TableCell>
+                {/************/}
+                <TableCell className="text-right">
+                  <Input
+                    type="number"
+                    name="amt"
+                    value={
+                      reportInput.find((entry) => entry.id === stock.id)?.amt ||
+                      ""
+                    }
+                    onChange={(e) => onInputChange(e, stock.id)}
+                  />
+                </TableCell>
+                <TableCell className="text-right">
+                  <Input
+                    type="number"
+                    name="oweing"
+                    // readOnly
+                    value={calculateEachRowTotal(stock.id)}
+                  />
+                </TableCell>
               </TableRow>
             ))}
+            {/*****************/}
           </TableBody>
           <TableFooter>
             <TableRow>
@@ -183,6 +244,18 @@ export default function ManagerReport() {
               )}
               <TableCell className="text-right font-semibold">
                 {formatNumber1(grandTotal)}
+              </TableCell>
+              {/**************/}
+              {/* {["amt", "Oweing"].map((field) => (
+                <TableCell key={field} className="text-center font-semibold">
+                  {formatNumber1(calculateColumnAmtTotal(field))}
+                </TableCell>
+              ))} */}
+              <TableCell className="text-right font-semibold">
+                {formatNumber1(calculateColumnTotal("amt"))}
+              </TableCell>
+              <TableCell className="text-right font-semibold">
+                {formatNumber1(calculateColumnAmtTotal())}
               </TableCell>
             </TableRow>
           </TableFooter>
