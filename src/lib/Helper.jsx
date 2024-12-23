@@ -1,9 +1,9 @@
 import { useLocation } from "react-router-dom";
 
 // export const server_url = "http://localhost:44405";
-export const server_url = "http://localhost:3000";
+// export const server_url = "http://localhost:3000";
 // export const server_url = "http://server.africanfoodstuffnz.com/duo";
-// export const server_url = "https://douhotels-bc15da8aa9a3.herokuapp.com";
+export const server_url = "https://douhotels-bc15da8aa9a3.herokuapp.com";
 
 export const _post = (url, data, success = (f) => f, error = (f) => f) => {
   const token = localStorage.getItem("@@token");
