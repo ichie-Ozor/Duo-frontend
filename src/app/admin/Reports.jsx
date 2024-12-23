@@ -1,5 +1,7 @@
+import { DatePicker } from "@/components/reuseables/DatePicker";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
 // import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -13,11 +15,13 @@ import {
 } from "@/components/ui/table";
 // import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { formatNumber1, _get } from "@/lib/Helper";
+import moment from "moment";
 // import moment from "moment";
 import { useEffect, useState } from "react";
 
 export default function AdminReport() {
   const [stocks, setStocks] = useState([]);
+  const [form, setForm] = useState({date_from:'',date_to:""})
   const getStocks = () => {
     _get(
       "admin/report",
@@ -54,6 +58,34 @@ export default function AdminReport() {
 
   return (
     <Card className="pt-3">
+      <div className="grid grid-cols-2 gap-3 justify-between mx-2">
+        <div>
+          <Label>From</Label>
+          <DatePicker
+            date={form.date_from}
+            setDate={(selectedDate) => {
+              setForm((p) => ({
+                ...p,
+                date_from: moment(selectedDate).format("YYYY-MM-DD"),
+              }));
+            }}
+            className="w-full"
+          />
+        </div>
+        <div>
+          <Label>To</Label>
+          <DatePicker
+            date={form.date_to}
+            setDate={(selectedDate) => {
+              setForm((p) => ({
+                ...p,
+                date_to: moment(selectedDate).format("YYYY-MM-DD"),
+              }));
+            }}
+            className="w-full"
+          />
+        </div>
+      </div>
       <CardContent>
         <Table>
           <TableCaption>Report</TableCaption>
