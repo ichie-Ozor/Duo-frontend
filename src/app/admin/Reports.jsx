@@ -24,7 +24,7 @@ export default function AdminReport() {
       (resp) => {
         console.log(resp, "start");
         if (resp.success) {
-          setStocks(resp.result);
+          setStocks(resp.response);
           //   alert(resp.data);
         }
       },
