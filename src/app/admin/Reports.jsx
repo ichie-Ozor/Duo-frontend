@@ -21,7 +21,7 @@ import { useEffect, useState } from "react";
 
 export default function AdminReport() {
   const [stocks, setStocks] = useState([]);
-  const [form, setForm] = useState({date_from:'',date_to:""})
+  const [form, setForm] = useState({ date_from: "", date_to: "" });
   const getStocks = () => {
     _get(
       "admin/report",
@@ -47,19 +47,31 @@ export default function AdminReport() {
     );
   };
 
-  // const grandTotal = reportInput.reduce(
-  //   (acc, entry) => acc + calculateRowTotal(entry.id),
-  //   0
-  // );
-
   const calculateColumnTotal = (field) => {
     return stocks.reduce((acc, row) => acc + (Number(row[field]) || 0), 0);
   };
 
+  const dateSearch = () => {
+    const { date_from, date_to } = form;
+    _get(
+      `admin/reportRange?from=${date_from}&to=${date_to}`,
+      (resp) => {
+        console.log(resp, "start");
+        if (resp.success) {
+          setStocks(resp.response);
+        }
+      },
+      (err) => console.error(err.message)
+    );
+  };
+
   return (
     <Card className="pt-3">
-      <div className="grid grid-cols-2 gap-3 justify-between mx-2">
-        <div>
+      <form
+        className="grid grid-cols-5 gap-3 justify-self-end mx-2 w-1/2"
+        onSubmit={dateSearch}
+      >
+        <div className="col-span-2">
           <Label>From</Label>
           <DatePicker
             date={form.date_from}
@@ -72,7 +84,7 @@ export default function AdminReport() {
             className="w-full"
           />
         </div>
-        <div>
+        <div className="col-span-2">
           <Label>To</Label>
           <DatePicker
             date={form.date_to}
@@ -85,7 +97,10 @@ export default function AdminReport() {
             className="w-full"
           />
         </div>
-      </div>
+        <button className="h-9 border-1 border-gray-400 self-end text-white bg-black">
+          SEARCH
+        </button>
+      </form>
       <CardContent>
         <Table>
           <TableCaption>Report</TableCaption>
