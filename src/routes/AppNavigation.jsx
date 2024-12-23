@@ -283,9 +283,9 @@ export default function AppNavigation() {
             {
               path: "reports",
               element: (
-                <ProtectedRoute rolesAllowed={["admin"]}>
+                // <ProtectedRoute rolesAllowed={["admin"]}>
                   <AdminReport />
-                </ProtectedRoute>
+                // </ProtectedRoute>
               ),
             },
             // {
