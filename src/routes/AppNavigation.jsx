@@ -70,7 +70,7 @@ export default function AppNavigation() {
   console.log(user);
   let Pages = useRoutes([
     {
-      path: "/login",
+      path: "/",
       element: <Login />,
     },
     {
@@ -178,25 +178,27 @@ export default function AppNavigation() {
               path: "transfer",
               element: (
                 // <ProtectedRoute rolesAllowed={["kitchen"]}>
-                  <Transfer page="Kitchen" />
+                <Transfer page="Kitchen" />
                 // </ProtectedRoute>
               ),
             },
             {
               path: "stocks",
-              element:
+              element: (
                 <ProtectedRoute rolesAllowed={["admin", "manager", "kitchen"]}>
                   {/* <Transfer page="kitchen" /> */}
                   <VipStockTable page="kitchen" />,
                 </ProtectedRoute>
+              ),
             },
             {
               path: "output",
-              element: 
-              <ProtectedRoute rolesAllowed={["admin", "manager", "kitchen"]}>
+              element: (
+                <ProtectedRoute rolesAllowed={["admin", "manager", "kitchen"]}>
                   {/* <Transfer page="kitchen" /> */}
                   <VipOutputTable page="kitchen" />,
                 </ProtectedRoute>
+              ),
             },
             {
               path: "stocks",
@@ -284,7 +286,7 @@ export default function AppNavigation() {
               path: "reports",
               element: (
                 // <ProtectedRoute rolesAllowed={["admin"]}>
-                  <AdminReport />
+                <AdminReport />
                 // </ProtectedRoute>
               ),
             },
