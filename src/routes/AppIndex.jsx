@@ -250,7 +250,7 @@ import { AuthContext } from "@/app/auth/Context";
 export default function AppIndex() {
   const location = useLocation();
   const { user, setUser, token, setToken } = useContext(AuthContext);
-  console.log(user, token, "App index");
+  // console.log(user, token, "App index");
   return (
     <SidebarProvider>
       <AppSidebar />

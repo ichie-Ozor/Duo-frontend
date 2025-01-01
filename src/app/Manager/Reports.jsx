@@ -19,7 +19,7 @@ import toast from "react-hot-toast";
 
 export default function ManagerReport() {
   const [stocks, setStocks] = useState([]);
-  // const [amt, setAmt] = useState(0);
+  const [form, setForm] = useState({ date_from: "" });
   const [reportInput, setReportInput] = useState([]);
   const getSaleStaff = () => {
     _get(
@@ -37,6 +37,7 @@ export default function ManagerReport() {
               ceo: 0,
               damage: 0,
               room: 0,
+              owe: 0,
               amt: 0,
             }))
           );
@@ -73,7 +74,7 @@ export default function ManagerReport() {
   const calculateRowTotal = (id) => {
     const row = reportInput.find((entry) => entry.id === id);
     if (!row) return 0;
-    return ["pos", "cash", "ceo", "damage", "room"].reduce(
+    return ["pos", "cash", "ceo", "damage", "room", "owe"].reduce(
       (acc, field) => acc + row[field],
       0
     );
@@ -95,7 +96,6 @@ export default function ManagerReport() {
     0
   );
 
-   const [form, setForm] = useState({ date_from: "" });
   // const grandAmtTotal = reportInput.reduce(
   //   (acc, entry) => acc + calculateEachRowTotal(entry.id),
   //   0
@@ -127,6 +127,7 @@ export default function ManagerReport() {
         name: stock?.name,
         total,
         oweing,
+        date: form.date_from,
       };
     });
     console.log(updatedReportInput, "stock", reportInput);
@@ -153,9 +154,11 @@ export default function ManagerReport() {
         ceo: 0,
         damage: 0,
         room: 0,
+        owe: 0,
         amt: 0,
       }))
     );
+    setForm({ date_from: "" });
   };
 
   const updatedStocks = stocks.map((stock, index) => ({
@@ -165,13 +168,15 @@ export default function ManagerReport() {
   return (
     <Card className="pt-3">
       <div className="grid grid-cols-4 p-2">
-<DatePicker  date={form.date_from}
-            setDate={(selectedDate) => {
-              setForm((p) => ({
-                ...p,
-                date_from: moment(selectedDate).format("YYYY-MM-DD"),
-              }));
-            }} />
+        <DatePicker
+          date={form.date_from}
+          setDate={(selectedDate) => {
+            setForm((p) => ({
+              ...p,
+              date_from: moment(selectedDate).format("YYYY-MM-DD"),
+            }));
+          }}
+        />
       </div>
       <CardContent>
         <Table>
@@ -188,6 +193,7 @@ export default function ManagerReport() {
               <TableHead className="text-center">CEO</TableHead>
               <TableHead className="text-center">Damage</TableHead>
               <TableHead className="text-center">Room</TableHead>
+              <TableHead className="text-center">Owe</TableHead>
               <TableHead className="text-center">Total</TableHead>
               <TableHead className="text-center">Amount Paid</TableHead>
               <TableHead className="text-center">Oweing</TableHead>
@@ -200,20 +206,22 @@ export default function ManagerReport() {
                 <TableCell className="font-bold text-[18px]">
                   {stock.name}
                 </TableCell>
-                {["pos", "cash", "ceo", "damage", "room"].map((field) => (
-                  <TableCell key={field} className="text-right">
-                    <Input
-                      type="number"
-                      name={field}
-                      value={
-                        reportInput.find((entry) => entry.id === stock.id)?.[
-                          field
-                        ] || ""
-                      }
-                      onChange={(e) => onInputChange(e, stock.id)}
-                    />
-                  </TableCell>
-                ))}
+                {["pos", "cash", "ceo", "damage", "room", "owe"].map(
+                  (field) => (
+                    <TableCell key={field} className="text-right">
+                      <Input
+                        type="number"
+                        name={field}
+                        value={
+                          reportInput.find((entry) => entry.id === stock.id)?.[
+                            field
+                          ] || ""
+                        }
+                        onChange={(e) => onInputChange(e, stock.id)}
+                      />
+                    </TableCell>
+                  )
+                )}
                 <TableCell className="text-right">
                   {formatNumber1(calculateRowTotal(stock.id))}
                 </TableCell>
@@ -246,7 +254,7 @@ export default function ManagerReport() {
               <TableCell colSpan={2} className="font-semibold text-right">
                 Total
               </TableCell>
-              {["pos", "cash", "ceo", "damage", "room"].map((field) => (
+              {["pos", "cash", "ceo", "damage", "room", "owe"].map((field) => (
                 <TableCell key={field} className="text-center font-semibold">
                   {formatNumber1(calculateColumnTotal(field))}
                 </TableCell>
