@@ -1,3 +1,4 @@
+import { DatePicker } from "@/components/reuseables/DatePicker";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -12,6 +13,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatNumber1, _get, _post } from "@/lib/Helper";
+import moment from "moment";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
@@ -93,6 +95,7 @@ export default function ManagerReport() {
     0
   );
 
+   const [form, setForm] = useState({ date_from: "" });
   // const grandAmtTotal = reportInput.reduce(
   //   (acc, entry) => acc + calculateEachRowTotal(entry.id),
   //   0
@@ -161,6 +164,15 @@ export default function ManagerReport() {
   }));
   return (
     <Card className="pt-3">
+      <div className="grid grid-cols-4 p-2">
+<DatePicker  date={form.date_from}
+            setDate={(selectedDate) => {
+              setForm((p) => ({
+                ...p,
+                date_from: moment(selectedDate).format("YYYY-MM-DD"),
+              }));
+            }} />
+      </div>
       <CardContent>
         <Table>
           <TableCaption>Report</TableCaption>
