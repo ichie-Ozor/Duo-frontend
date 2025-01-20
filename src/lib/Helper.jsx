@@ -7,6 +7,7 @@ export const server_url = "https://douhotels-bc15da8aa9a3.herokuapp.com";
 
 export const _post = (url, data, success = (f) => f, error = (f) => f) => {
   const token = localStorage.getItem("@@token");
+  console.log(token, "token");
   fetch(`${server_url}/${url}`, {
     method: "POST",
     headers: {
