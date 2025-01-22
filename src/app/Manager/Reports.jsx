@@ -25,7 +25,7 @@ export default function ManagerReport() {
     _get(
       "manager/getSaleStaff",
       (resp) => {
-        console.log(resp.resp, "start");
+        console.log(resp, "starters");
         if (resp.success) {
           setStocks(resp.resp);
           setReportInput(

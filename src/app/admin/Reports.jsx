@@ -51,7 +51,8 @@ export default function AdminReport() {
     return stocks.reduce((acc, row) => acc + (Number(row[field]) || 0), 0);
   };
 
-  const dateSearch = () => {
+  const dateSearch = (event) => {
+    event.preventDefault();
     const { date_from, date_to } = form;
     _get(
       `admin/reportRange?from=${date_from}&to=${date_to}`,

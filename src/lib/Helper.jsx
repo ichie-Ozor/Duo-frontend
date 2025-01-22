@@ -28,6 +28,7 @@ export const _get = (url, success = (f) => f, error = (f) => f) => {
   fetch(`${server_url}/${url}`)
     .then((raw) => raw.json())
     .then((result) => {
+      console.log(result, "get result");
       success(result);
     })
     .catch((err) => {
