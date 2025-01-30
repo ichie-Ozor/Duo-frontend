@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   BadgeCheck,
@@ -7,35 +7,29 @@ import {
   CreditCard,
   LogOut,
   Sparkles,
-} from "lucide-react"
+} from "lucide-react";
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
+  // DropdownMenuContent,
+  // DropdownMenuGroup,
+  // DropdownMenuItem,
+  // DropdownMenuLabel,
+  // DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar"
-import { replace, useNavigate } from "react-router-dom"
+} from "@/components/ui/sidebar";
+import { replace, useNavigate } from "react-router-dom";
 
-export function NavUser({
-  user
-}) {
-  const { isMobile } = useSidebar()
- const history = useNavigate()
+export function NavUser({ user }) {
+  const { isMobile } = useSidebar();
+  const history = useNavigate();
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -43,7 +37,10 @@ export function NavUser({
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              onClick={() => {history("/login", replace); localStorage.removeItem('@@token')}}
+              onClick={() => {
+                history("/", replace);
+                localStorage.removeItem("@@token");
+              }}
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <LogOut />

@@ -43,7 +43,7 @@ const Provider = ({ children }) => {
       // Fetch user data from API here
       // setUser(response.data);
     } else {
-      window.location = "/login";
+      window.location = "/";
     }
   }, [_token]);
 

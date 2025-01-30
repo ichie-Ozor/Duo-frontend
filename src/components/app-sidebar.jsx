@@ -201,10 +201,10 @@ const data = {
           title: "Reports",
           url: "admin/reports",
         },
-        // {
-        //   title: "Sales",
-        //   url: "kitchen/sales",
-        // },
+        {
+          title: "Notes",
+          url: "admin/note",
+        },
         // {
         //   title: "Stock",
         //   url: "kitchen/stocks",

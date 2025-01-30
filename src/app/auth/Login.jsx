@@ -54,7 +54,7 @@ export default function Login() {
         }
       })
       .catch((err) => {
-        console.error(err, "rtyui");
+        console.error(err, "Error has occured");
       });
   };
   const handleChange = ({ target: { value, name } }) => {

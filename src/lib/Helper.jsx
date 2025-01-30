@@ -1,9 +1,9 @@
 import { useLocation } from "react-router-dom";
 
 // export const server_url = "http://localhost:44405";
-// export const server_url = "http://localhost:3000";
+export const server_url = "http://localhost:3000";
 // export const server_url = "http://server.africanfoodstuffnz.com/duo";
-export const server_url = "https://douhotels-bc15da8aa9a3.herokuapp.com";
+// export const server_url = "https://douhotels-bc15da8aa9a3.herokuapp.com";
 
 export const _post = (url, data, success = (f) => f, error = (f) => f) => {
   const token = localStorage.getItem("@@token");
@@ -28,7 +28,6 @@ export const _get = (url, success = (f) => f, error = (f) => f) => {
   fetch(`${server_url}/${url}`)
     .then((raw) => raw.json())
     .then((result) => {
-      console.log(result, "get result");
       success(result);
     })
     .catch((err) => {
@@ -47,6 +46,37 @@ export const _put = (url, data, success = (f) => f, error = (f) => f) => {
       success(result);
     })
     .catch((err) => {
+      error(err);
+    });
+};
+
+export const _delete = (
+  url,
+  data = null,
+  success = () => {},
+  error = () => {}
+) => {
+  const options = {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+  };
+
+  if (data) {
+    options.body = JSON.stringify(data);
+  }
+  fetch(`${server_url}/${url}`, options)
+    .then((raw) => {
+      if (!raw.ok) {
+        throw new Error(`Error: ${raw.status} - ${raw.statusText}`);
+      }
+      return raw.json();
+    })
+    .then((result) => {
+      console.log("item deleted", result);
+      success(result);
+    })
+    .catch((err) => {
+      console.error("Error in Delete request", err.message);
       error(err);
     });
 };

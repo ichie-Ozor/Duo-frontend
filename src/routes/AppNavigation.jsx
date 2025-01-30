@@ -25,6 +25,7 @@ import ManagerReport from "@/app/Manager/Reports";
 import { AuthContext } from "@/app/auth/Context";
 import { useContext, useEffect } from "react";
 import AdminReport from "@/app/admin/Reports";
+import Note from "../app/admin/Note";
 import Transfer from "@/app/Kitchen/Transfer";
 import ReceptionSale from "@/app/reception/receptionSale";
 import { ReceptionStock } from "@/app/reception/receptionStock";
@@ -66,7 +67,7 @@ export default function AppNavigation() {
       //   // Fetch user data from API here
       //   // setUser(response.data);
     }
-  }, [token]);
+  }, [token, navigation, location.pathname]);
   console.log(user);
   let Pages = useRoutes([
     {
@@ -290,10 +291,10 @@ export default function AppNavigation() {
                 // </ProtectedRoute>
               ),
             },
-            // {
-            //   path: "stocks",
-            //   element: <VipStockTable page="vip" />,
-            // },
+            {
+              path: "note",
+              element: <Note />,
+            },
             // {
             //   path: "output",
             //   element: <VipOutputTable />,
